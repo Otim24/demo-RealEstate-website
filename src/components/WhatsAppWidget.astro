@@ -1,6 +1,13 @@
 ---
 import WhatsAppIcon from './WhatsAppIcon.astro';
 import ArrowIcon from './ArrowIcon.astro';
+import CustomSelect from './CustomSelect.astro';
+
+const deskOptions = [
+  { value: '256772410890', label: 'Kampala (Kololo) Desk (+256 772 410 890)' },
+  { value: '256752814320', label: 'Entebbe Waterfront Desk (+256 752 814 320)' },
+  { value: '256782619045', label: 'Fort Portal Highlands Desk (+256 782 619 045)' }
+];
 ---
 
 <div
@@ -14,7 +21,7 @@ import ArrowIcon from './ArrowIcon.astro';
     role="dialog"
     aria-label="Text a Demo Real Estate agent on WhatsApp"
     aria-hidden="true"
-    class="wa-popover invisible pointer-events-none mb-3 max-h-[80dvh] w-[min(24rem,calc(100vw-2rem))] origin-bottom-right translate-y-3 scale-95 overflow-y-auto border border-rule bg-canvas p-5 opacity-0 shadow-2xl"
+    class="wa-popover invisible pointer-events-none mb-3 max-h-[82dvh] w-[min(24rem,calc(100vw-2rem))] origin-bottom-right translate-y-3 scale-95 overflow-y-auto border border-rule bg-canvas p-5 opacity-0 shadow-2xl"
   >
     <div class="flex items-start justify-between gap-4 border-b border-rule pb-3.5">
       <div>
@@ -34,17 +41,17 @@ import ArrowIcon from './ArrowIcon.astro';
 
     <div class="mt-4 space-y-4">
       <div>
-        <label for="wa-desk-select" class="block text-[11px] font-medium tracking-[0.14em] text-muted uppercase">
+        <span class="block text-[11px] font-medium tracking-[0.14em] text-muted uppercase">
           Choose Office Desk
-        </label>
-        <select
-          id="wa-desk-select"
-          class="mt-1.5 min-h-[42px] w-full border border-rule bg-surface px-3 py-2 text-xs text-ink focus:border-ink focus:outline-none"
-        >
-          <option value="256772410890">Kampala (Kololo) Desk (+256 772 410 890)</option>
-          <option value="256752814320">Entebbe Waterfront Desk (+256 752 814 320)</option>
-          <option value="256782619045">Fort Portal Highlands Desk (+256 782 619 045)</option>
-        </select>
+        </span>
+        <div class="mt-1.5">
+          <CustomSelect
+            id="wa-desk-select"
+            name="waDesk"
+            options={deskOptions}
+            defaultValue="256772410890"
+          />
+        </div>
       </div>
 
       <div>
@@ -53,21 +60,21 @@ import ArrowIcon from './ArrowIcon.astro';
           <button
             type="button"
             data-wa-preset="Hello Demo Real Estate, I would like to book a viewing this week."
-            class="min-h-[34px] border border-rule bg-surface px-2.5 py-1 text-[11px] text-ink transition-colors hover:border-ink hover:bg-bronze/20"
+            class="min-h-[36px] border border-rule bg-surface px-2.5 py-1 text-[11px] text-ink transition-colors hover:border-ink hover:bg-bronze/20"
           >
             Book a viewing
           </button>
           <button
             type="button"
             data-wa-preset="Hello Demo Real Estate, please share UGX pricing and payment terms."
-            class="min-h-[34px] border border-rule bg-surface px-2.5 py-1 text-[11px] text-ink transition-colors hover:border-ink hover:bg-bronze/20"
+            class="min-h-[36px] border border-rule bg-surface px-2.5 py-1 text-[11px] text-ink transition-colors hover:border-ink hover:bg-bronze/20"
           >
             UGX payment terms
           </button>
           <button
             type="button"
             data-wa-preset="Hello Demo Real Estate, do you have off-market homes in Kololo or Entebbe?"
-            class="min-h-[34px] border border-rule bg-surface px-2.5 py-1 text-[11px] text-ink transition-colors hover:border-ink hover:bg-bronze/20"
+            class="min-h-[36px] border border-rule bg-surface px-2.5 py-1 text-[11px] text-ink transition-colors hover:border-ink hover:bg-bronze/20"
           >
             Off-market homes
           </button>

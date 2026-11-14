@@ -3,16 +3,23 @@ import { Image } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ArrowIcon from '../../components/ArrowIcon.astro';
 import WhatsAppIcon from '../../components/WhatsAppIcon.astro';
+import CustomSelect from '../../components/CustomSelect.astro';
 import { properties, type PropertyCategory } from '../../data/properties';
 
 const categories: ('All' | PropertyCategory)[] = ['All', 'Villas', 'Penthouses', 'Townhouses', 'Estates'];
+const budgetOptions = [
+  { value: 'all', label: 'All Budgets (UGX)' },
+  { value: '2.5', label: 'Up to UGX 2.5B' },
+  { value: '3.5', label: 'Up to UGX 3.5B' },
+  { value: '5.0', label: 'Up to UGX 5.0B' }
+];
 ---
 
 <BaseLayout
   title="Properties | Demo Real Estate Uganda (UGX)"
   description="Browse luxury villas, penthouses, courtyard homes, and lakeside estates priced in Ugandan Shillings."
 >
-  <section class="bg-accent pt-12 pb-12 text-canvas sm:pt-16 lg:pt-20">
+  <section class="relative z-20 bg-accent pt-12 pb-12 text-canvas sm:pt-16 lg:pt-20">
     <div class="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-12">
       <div class="flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
         <div class="max-w-2xl" data-reveal="fade-left">
@@ -51,7 +58,6 @@ const categories: ('All' | PropertyCategory)[] = ['All', 'Villas', 'Penthouses',
       <!-- Category & Budget Filter Bar -->
       <div
         class="mt-10 flex flex-col gap-4 border-t border-canvas/15 pt-6 lg:flex-row lg:items-center lg:justify-between"
-        data-reveal="fade-up"
       >
         <div class="flex w-full min-w-0 items-center gap-2 overflow-x-auto pb-1 sm:gap-3 lg:w-auto" role="tablist" aria-label="Filter by property type">
           {
@@ -74,18 +80,18 @@ const categories: ('All' | PropertyCategory)[] = ['All', 'Villas', 'Penthouses',
         </div>
 
         <div class="flex w-full items-center gap-3 sm:w-auto">
-          <label for="budget-filter" class="shrink-0 text-xs tracking-[0.12em] text-canvas/70 uppercase">
+          <span class="shrink-0 text-xs tracking-[0.12em] text-canvas/70 uppercase">
             Max UGX:
-          </label>
-          <select
-            id="budget-filter"
-            class="min-h-[42px] w-full min-w-0 border border-canvas/25 bg-accent px-3 text-xs text-canvas focus:border-bronze focus:outline-none sm:w-auto"
-          >
-            <option value="all">All Budgets</option>
-            <option value="2.5">Up to UGX 2.5B</option>
-            <option value="3.5">Up to UGX 3.5B</option>
-            <option value="5.0">Up to UGX 5.0B</option>
-          </select>
+          </span>
+          <div class="w-full min-w-0 sm:w-56">
+            <CustomSelect
+              id="budget-filter"
+              name="budgetFilter"
+              options={budgetOptions}
+              defaultValue="all"
+              variant="dark"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -251,7 +257,7 @@ const categories: ('All' | PropertyCategory)[] = ['All', 'Villas', 'Penthouses',
 <script>
   function initPortfolioControls() {
     const filterButtons = document.querySelectorAll<HTMLButtonElement>('[data-filter-btn]');
-    const budgetSelect = document.getElementById('budget-filter') as HTMLSelectElement | null;
+    const budgetSelect = document.getElementById('budget-filter') as HTMLInputElement | null;
     const resetBtn = document.getElementById('reset-filters-btn');
     const emptyMsg = document.getElementById('empty-filter-msg');
     const viewButtons = document.querySelectorAll<HTMLButtonElement>('[data-view-btn]');
@@ -270,7 +276,11 @@ const categories: ('All' | PropertyCategory)[] = ['All', 'Villas', 'Penthouses',
     const paramBudget = params.get('maxBillions');
     if (paramCat) activeCategory = paramCat;
     if (paramBudget) maxBillions = paramBudget;
-    if (budgetSelect && maxBillions) budgetSelect.value = maxBillions;
+    const setSelect = (window as unknown as { setCustomSelectValue?: (id: string, val: string) => void }).setCustomSelectValue;
+    if (budgetSelect && maxBillions) {
+      budgetSelect.value = maxBillions;
+      setSelect?.('budget-filter', maxBillions);
+    }
 
     const updateButtonStyles = () => {
       filterButtons.forEach((btn) => {
@@ -361,6 +371,7 @@ const categories: ('All' | PropertyCategory)[] = ['All', 'Villas', 'Penthouses',
       activeCategory = 'All';
       maxBillions = 'all';
       if (budgetSelect) budgetSelect.value = 'all';
+      setSelect?.('budget-filter', 'all');
       runFilter(true);
     });
 

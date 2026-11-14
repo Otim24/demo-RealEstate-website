@@ -1,0 +1,112 @@
+---
+export interface SelectOption {
+  value: string;
+  label: string;
+}
+
+interface Props {
+  id: string;
+  name: string;
+  options: SelectOption[];
+  defaultValue?: string;
+  variant?: 'light' | 'dark';
+  placement?: 'bottom' | 'top';
+  class?: string;
+}
+
+const {
+  id,
+  name,
+  options,
+  defaultValue = options[0]?.value ?? '',
+  variant = 'light',
+  placement = 'bottom',
+  class: className = ''
+} = Astro.props;
+
+const activeOption = options.find((opt) => opt.value === defaultValue) ?? options[0];
+const isDark = variant === 'dark';
+---
+
+<div
+  class={`relative w-full min-w-0 ${className}`}
+  data-custom-select
+  data-select-id={id}
+>
+  <input type="hidden" id={id} name={name} value={activeOption?.value ?? ''} data-select-input />
+
+  <button
+    type="button"
+    data-select-trigger
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls={`${id}-listbox`}
+    class={`flex min-h-[46px] w-full items-center justify-between gap-3 border px-3.5 py-2 text-left text-sm transition-colors focus:outline-none ${
+      isDark
+        ? 'border-canvas/30 bg-accent text-canvas hover:border-bronze focus:border-bronze'
+        : 'border-rule bg-surface/60 text-ink hover:border-ink focus:border-ink'
+    }`}
+  >
+    <span class="truncate" data-select-label>
+      {activeOption?.label ?? ''}
+    </span>
+    <svg
+      data-select-chevron
+      class="h-4 w-4 shrink-0 transition-transform duration-200"
+      viewBox="0 0 20 20"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" />
+    </svg>
+  </button>
+
+  <ul
+    id={`${id}-listbox`}
+    role="listbox"
+    data-select-menu
+    class={`invisible pointer-events-none absolute right-0 left-0 z-50 max-h-64 overflow-y-auto border opacity-0 shadow-2xl transition-all duration-200 ${
+      placement === 'top' ? 'bottom-full mb-1.5 origin-bottom translate-y-1' : 'top-full mt-1.5 origin-top -translate-y-1'
+    } ${
+      isDark
+        ? 'border-canvas/25 bg-accent text-canvas'
+        : 'border-rule bg-canvas text-ink'
+    }`}
+  >
+    {
+      options.map((opt) => {
+        const selected = opt.value === activeOption?.value;
+        return (
+          <li role="presentation">
+            <button
+              type="button"
+              role="option"
+              aria-selected={String(selected)}
+              data-select-option
+              data-value={opt.value}
+              data-label={opt.label}
+              class={`flex min-h-[44px] w-full items-center justify-between gap-3 px-3.5 py-2.5 text-left text-sm transition-colors ${
+                isDark
+                  ? selected
+                    ? 'bg-bronze font-medium text-ink'
+                    : 'text-canvas hover:bg-canvas/10'
+                  : selected
+                    ? 'bg-surface font-medium text-accent'
+                    : 'text-ink hover:bg-surface/70'
+              }`}
+            >
+              <span class="leading-snug">{opt.label}</span>
+              <span
+                data-option-dot
+                class={`h-2 w-2 shrink-0 transition-opacity ${
+                  selected ? 'opacity-100 bg-bronze' : 'opacity-0'
+                }`}
+              />
+            </button>
+          </li>
+        );
+      })
+    }
+  </ul>
+</div>

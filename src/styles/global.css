@@ -37,9 +37,12 @@
   }
 
   main,
-  section,
   header,
   footer {
+    overflow-x: clip;
+  }
+
+  section {
     overflow-x: clip;
   }
 

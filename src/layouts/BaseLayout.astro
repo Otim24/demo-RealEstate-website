@@ -152,11 +152,128 @@ const {
         });
       }
 
+      let customSelectBound = false;
+
+      function closeAllCustomSelects(except?: Element | null) {
+        document.querySelectorAll<HTMLElement>('[data-custom-select]').forEach((root) => {
+          if (except && root === except) return;
+          const trigger = root.querySelector<HTMLButtonElement>('[data-select-trigger]');
+          const menu = root.querySelector<HTMLElement>('[data-select-menu]');
+          const chevron = root.querySelector<SVGElement>('[data-select-chevron]');
+          if (!trigger || !menu) return;
+          trigger.setAttribute('aria-expanded', 'false');
+          menu.classList.add('invisible', 'pointer-events-none', 'opacity-0');
+          menu.classList.remove('pointer-events-auto', 'opacity-100');
+          if (chevron) chevron.style.transform = '';
+        });
+      }
+
+      function applyCustomSelectOption(root: HTMLElement, optionBtn: HTMLElement, emitChange = true) {
+        const input = root.querySelector<HTMLInputElement>('[data-select-input]');
+        const labelEl = root.querySelector<HTMLElement>('[data-select-label]');
+        if (!input || !labelEl) return;
+
+        const val = optionBtn.getAttribute('data-value') || '';
+        const lbl = optionBtn.getAttribute('data-label') || '';
+        input.value = val;
+        labelEl.textContent = lbl;
+
+        const isDark = root.querySelector('[data-select-menu]')?.classList.contains('bg-accent') ?? false;
+        root.querySelectorAll<HTMLElement>('[data-select-option]').forEach((btn) => {
+          const match = btn === optionBtn;
+          btn.setAttribute('aria-selected', String(match));
+          const dot = btn.querySelector<HTMLElement>('[data-option-dot]');
+          if (dot) {
+            dot.classList.toggle('opacity-100', match);
+            dot.classList.toggle('bg-bronze', match);
+            dot.classList.toggle('opacity-0', !match);
+          }
+          if (isDark) {
+            btn.classList.toggle('bg-bronze', match);
+            btn.classList.toggle('font-medium', match);
+            btn.classList.toggle('text-ink', match);
+            btn.classList.toggle('text-canvas', !match);
+          } else {
+            btn.classList.toggle('bg-surface', match);
+            btn.classList.toggle('font-medium', match);
+            btn.classList.toggle('text-accent', match);
+          }
+        });
+
+        if (emitChange) {
+          input.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+      }
+
+      function initCustomSelects() {
+        (window as unknown as Record<string, unknown>).setCustomSelectValue = (
+          id: string,
+          value: string,
+          emitChange = false
+        ) => {
+          const root = document.querySelector<HTMLElement>(`[data-custom-select][data-select-id="${id}"]`);
+          if (!root) return;
+          const opt = root.querySelector<HTMLElement>(`[data-select-option][data-value="${CSS.escape(value)}"]`);
+          if (opt) applyCustomSelectOption(root, opt, emitChange);
+        };
+
+        if (customSelectBound) return;
+        customSelectBound = true;
+
+        document.addEventListener('click', (e) => {
+          const target = e.target as HTMLElement | null;
+          if (!target) return;
+
+          const trigger = target.closest<HTMLButtonElement>('[data-select-trigger]');
+          if (trigger) {
+            const root = trigger.closest<HTMLElement>('[data-custom-select]');
+            const menu = root?.querySelector<HTMLElement>('[data-select-menu]');
+            const chevron = root?.querySelector<SVGElement>('[data-select-chevron]');
+            if (!root || !menu) return;
+
+            const isOpen = trigger.getAttribute('aria-expanded') === 'true';
+            closeAllCustomSelects(root);
+            if (isOpen) {
+              trigger.setAttribute('aria-expanded', 'false');
+              menu.classList.add('invisible', 'pointer-events-none', 'opacity-0');
+              menu.classList.remove('pointer-events-auto', 'opacity-100');
+              if (chevron) chevron.style.transform = '';
+            } else {
+              trigger.setAttribute('aria-expanded', 'true');
+              menu.classList.remove('invisible', 'pointer-events-none', 'opacity-0');
+              menu.classList.add('pointer-events-auto', 'opacity-100');
+              if (chevron) chevron.style.transform = 'rotate(180deg)';
+            }
+            return;
+          }
+
+          const optionBtn = target.closest<HTMLElement>('[data-select-option]');
+          if (optionBtn) {
+            const root = optionBtn.closest<HTMLElement>('[data-custom-select]');
+            if (root) {
+              applyCustomSelectOption(root, optionBtn, true);
+              closeAllCustomSelects();
+            }
+            return;
+          }
+
+          if (!target.closest('[data-custom-select]')) {
+            closeAllCustomSelects();
+          }
+        });
+
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') {
+            closeAllCustomSelects();
+          }
+        });
+      }
+
       function initWhatsAppWidget() {
         const toggleBtn = document.getElementById('wa-toggle-btn');
         const closeBtn = document.getElementById('wa-close-btn');
         const popover = document.getElementById('wa-popover');
-        const deskSelect = document.getElementById('wa-desk-select') as HTMLSelectElement | null;
+        const deskSelect = document.getElementById('wa-desk-select') as HTMLInputElement | null;
         const msgInput = document.getElementById('wa-message-input') as HTMLTextAreaElement | null;
         const launchLink = document.getElementById('wa-launch-link') as HTMLAnchorElement | null;
         const presetBtns = document.querySelectorAll<HTMLButtonElement>('[data-wa-preset]');
@@ -216,10 +333,12 @@ const {
         initScrollReveals();
         updateActiveNavLinks();
         initMobileDrawer();
+        initCustomSelects();
         initWhatsAppWidget();
       });
 
       document.addEventListener('astro:before-preparation', () => {
+        closeAllCustomSelects();
         const drawer = document.getElementById('mobile-nav-drawer');
         if (drawer && drawer.getAttribute('aria-hidden') === 'false') {
           drawer.classList.add('pointer-events-none', 'opacity-0');

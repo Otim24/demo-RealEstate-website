@@ -2,7 +2,17 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ArrowIcon from '../components/ArrowIcon.astro';
 import WhatsAppIcon from '../components/WhatsAppIcon.astro';
+import CustomSelect from '../components/CustomSelect.astro';
 import { properties } from '../data/properties';
+
+const residenceOptions = [
+  { value: 'General Advisory', label: 'General Portfolio Consultation' },
+  ...properties.map((item) => ({
+    value: item.slug,
+    label: `${item.title} - ${item.location} (${item.price})`
+  })),
+  { value: 'List Property', label: 'List a Property With Demo Real Estate' }
+];
 ---
 
 <BaseLayout
@@ -64,7 +74,7 @@ import { properties } from '../data/properties';
         </div>
       </div>
 
-      <div class="lg:col-span-7" data-reveal="fade-right" data-delay="1">
+      <div class="relative z-20 lg:col-span-7" data-reveal="fade-right" data-delay="1">
         <div class="border border-rule bg-white p-6 shadow-xl sm:p-10">
           <form id="inquiry-form" class="av-fade-panel space-y-6">
             <div class="border-b border-rule pb-4">
@@ -103,24 +113,17 @@ import { properties } from '../data/properties';
             </div>
 
             <div class="min-w-0">
-              <label for="residence-select" class="block text-[11px] font-medium tracking-[0.14em] text-muted uppercase">
+              <span class="block text-[11px] font-medium tracking-[0.14em] text-muted uppercase">
                 Property of Interest (UGX)
-              </label>
-              <select
-                id="residence-select"
-                name="residence"
-                class="mt-2 min-h-[44px] w-full max-w-full border border-rule bg-canvas px-3.5 py-2 text-sm text-ink focus:border-ink focus:outline-none"
-              >
-                <option value="General Advisory">General Portfolio Consultation</option>
-                {
-                  properties.map((item) => (
-                    <option value={item.slug}>
-                      {item.title} - {item.location} ({item.price})
-                    </option>
-                  ))
-                }
-                <option value="List Property">List a Property With Demo Real Estate</option>
-              </select>
+              </span>
+              <div class="mt-2">
+                <CustomSelect
+                  id="residence-select"
+                  name="residence"
+                  options={residenceOptions}
+                  defaultValue="General Advisory"
+                />
+              </div>
             </div>
 
             <div>
@@ -202,17 +205,17 @@ import { properties } from '../data/properties';
     const form = document.getElementById('inquiry-form') as HTMLFormElement | null;
     const confirmation = document.getElementById('inquiry-confirmation');
     const summaryEl = document.getElementById('confirmation-summary');
-    const selectEl = document.getElementById('residence-select') as HTMLSelectElement | null;
+    const selectEl = document.getElementById('residence-select') as HTMLInputElement | null;
     const waConfirmBtn = document.getElementById('confirmation-wa-btn') as HTMLAnchorElement | null;
     const resetBtn = document.getElementById('inquiry-reset');
 
     if (!form || !confirmation || !summaryEl) return;
 
+    const setSelect = (window as unknown as { setCustomSelectValue?: (id: string, val: string) => void }).setCustomSelectValue;
     const params = new URLSearchParams(window.location.search);
     const residenceParam = params.get('residence');
     if (residenceParam && selectEl) {
-      const optionExists = Array.from(selectEl.options).some((opt) => opt.value === residenceParam);
-      if (optionExists) selectEl.value = residenceParam;
+      setSelect?.('residence-select', residenceParam);
     }
 
     form.addEventListener('submit', (e) => {
@@ -220,7 +223,8 @@ import { properties } from '../data/properties';
       const data = new FormData(form);
       const name = String(data.get('name') || 'Guest');
       const format = String(data.get('format') || 'In-Person Viewing');
-      const selectedLabel = selectEl?.options[selectEl.selectedIndex]?.text || 'Selected Properties';
+      const labelNode = document.querySelector('[data-select-id="residence-select"] [data-select-label]');
+      const selectedLabel = labelNode?.textContent?.trim() || selectEl?.value || 'Selected Properties';
 
       summaryEl.textContent = `${name}, a Demo Real Estate advisor will respond regarding ${selectedLabel} (${format}). You can also open this request directly in WhatsApp below.`;
       if (waConfirmBtn) {
