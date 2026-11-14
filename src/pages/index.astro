@@ -60,7 +60,7 @@ const steps = [
 >
   <!-- Section 1: Full-Bleed Dramatic Hero + Quick Finder -->
   <section class="relative z-20 overflow-x-clip bg-accent text-canvas">
-    <div class="absolute inset-0 overflow-hidden">
+    <div class="pointer-events-none absolute inset-0 overflow-hidden">
       <Image
         src={heroBg}
         alt="Luxury limestone villa in Kololo at golden hour"
@@ -73,7 +73,7 @@ const steps = [
       <div class="absolute inset-0 bg-gradient-to-t from-accent via-transparent to-accent/30"></div>
     </div>
 
-    <div class="relative mx-auto max-w-[1440px] px-5 pt-14 pb-12 sm:px-8 sm:pt-20 sm:pb-16 lg:px-12 lg:pt-24 lg:pb-20">
+    <div class="relative z-10 mx-auto max-w-[1440px] px-5 pt-14 pb-12 sm:px-8 sm:pt-20 sm:pb-16 lg:px-12 lg:pt-24 lg:pb-20">
       <div class="max-w-3xl">
         <div
           class="inline-flex items-center gap-3 border border-bronze/50 bg-accent/70 px-4 py-1.5 text-[11px] font-medium tracking-[0.2em] text-bronze uppercase backdrop-blur-sm"
@@ -574,5 +574,9 @@ const steps = [
     });
   }
 
-  document.addEventListener('astro:page-load', initLedgerHover);
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initLedgerHover);
+  } else {
+    initLedgerHover();
+  }
 </script>

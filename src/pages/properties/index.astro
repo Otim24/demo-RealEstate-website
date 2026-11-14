@@ -385,5 +385,9 @@ const budgetOptions = [
     runFilter(false);
   }
 
-  document.addEventListener('astro:page-load', initPortfolioControls);
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initPortfolioControls);
+  } else {
+    initPortfolioControls();
+  }
 </script>

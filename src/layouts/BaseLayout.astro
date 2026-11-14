@@ -6,7 +6,6 @@ import '@fontsource/cormorant-garamond/400-italic.css';
 import '@fontsource/dm-sans/400.css';
 import '@fontsource/dm-sans/500.css';
 import '../styles/global.css';
-import { ClientRouter } from 'astro:transitions';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import WhatsAppWidget from '../components/WhatsAppWidget.astro';
@@ -30,11 +29,10 @@ const {
     <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
-    <ClientRouter />
   </head>
   <body class="bg-canvas text-ink antialiased">
     <Header />
-    <main transition:name="av-page" class="flex-1 overflow-x-clip">
+    <main class="flex-1 overflow-x-clip">
       <slot />
     </main>
     <Footer />
@@ -90,8 +88,8 @@ const {
             });
           },
           {
-            threshold: 0.08,
-            rootMargin: '-4% 0px -4% 0px'
+            threshold: 0.02,
+            rootMargin: '0px 0px -12px 0px'
           }
         );
 
@@ -123,7 +121,7 @@ const {
         if (!toggleBtn || !drawer) return;
 
         const openDrawer = () => {
-          drawer.classList.remove('pointer-events-none', 'opacity-0');
+          drawer.classList.remove('invisible', 'pointer-events-none', 'opacity-0');
           drawer.classList.add('pointer-events-auto', 'opacity-100');
           drawer.setAttribute('aria-hidden', 'false');
           toggleBtn.setAttribute('aria-expanded', 'true');
@@ -131,7 +129,7 @@ const {
         };
 
         const closeDrawer = () => {
-          drawer.classList.add('pointer-events-none', 'opacity-0');
+          drawer.classList.add('invisible', 'pointer-events-none', 'opacity-0');
           drawer.classList.remove('pointer-events-auto', 'opacity-100');
           drawer.setAttribute('aria-hidden', 'true');
           toggleBtn.setAttribute('aria-expanded', 'false');
@@ -328,20 +326,26 @@ const {
         });
       }
 
-      document.addEventListener('astro:page-load', () => {
+      function initAll() {
         initScrollProgress();
         initScrollReveals();
         updateActiveNavLinks();
         initMobileDrawer();
         initCustomSelects();
         initWhatsAppWidget();
-      });
+      }
 
-      document.addEventListener('astro:before-preparation', () => {
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initAll);
+      } else {
+        initAll();
+      }
+
+      window.addEventListener('pageshow', () => {
         closeAllCustomSelects();
         const drawer = document.getElementById('mobile-nav-drawer');
         if (drawer && drawer.getAttribute('aria-hidden') === 'false') {
-          drawer.classList.add('pointer-events-none', 'opacity-0');
+          drawer.classList.add('invisible', 'pointer-events-none', 'opacity-0');
           drawer.classList.remove('pointer-events-auto', 'opacity-100');
           drawer.setAttribute('aria-hidden', 'true');
           document.body.style.overflow = '';
