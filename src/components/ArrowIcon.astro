@@ -1,0 +1,51 @@
+---
+interface Props {
+  class?: string;
+  direction?: 'right' | 'left' | 'up-right';
+}
+
+const { class: className = 'w-4 h-4', direction = 'right' } = Astro.props;
+---
+
+{
+  direction === 'right' && (
+    <svg
+      class={className}
+      viewBox="0 0 20 12"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <path d="M1 6H18.5" stroke="currentColor" stroke-width="1.15" stroke-linecap="square" />
+      <path d="M13.5 1L18.5 6L13.5 11" stroke="currentColor" stroke-width="1.15" stroke-linecap="square" />
+    </svg>
+  )
+}
+{
+  direction === 'left' && (
+    <svg
+      class={className}
+      viewBox="0 0 20 12"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <path d="M19 6H1.5" stroke="currentColor" stroke-width="1.15" stroke-linecap="square" />
+      <path d="M6.5 1L1.5 6L6.5 11" stroke="currentColor" stroke-width="1.15" stroke-linecap="square" />
+    </svg>
+  )
+}
+{
+  direction === 'up-right' && (
+    <svg
+      class={className}
+      viewBox="0 0 14 14"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <path d="M2 12L12 2" stroke="currentColor" stroke-width="1.15" stroke-linecap="square" />
+      <path d="M4.5 2H12V9.5" stroke="currentColor" stroke-width="1.15" stroke-linecap="square" />
+    </svg>
+  )
+}

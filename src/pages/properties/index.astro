@@ -1,0 +1,378 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ArrowIcon from '../../components/ArrowIcon.astro';
+import WhatsAppIcon from '../../components/WhatsAppIcon.astro';
+import { properties, type PropertyCategory } from '../../data/properties';
+
+const categories: ('All' | PropertyCategory)[] = ['All', 'Villas', 'Penthouses', 'Townhouses', 'Estates'];
+---
+
+<BaseLayout
+  title="Properties | Demo Real Estate Uganda (UGX)"
+  description="Browse luxury villas, penthouses, courtyard homes, and lakeside estates priced in Ugandan Shillings."
+>
+  <section class="bg-accent pt-12 pb-12 text-canvas sm:pt-16 lg:pt-20">
+    <div class="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-12">
+      <div class="flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
+        <div class="max-w-2xl" data-reveal="fade-left">
+          <p class="text-xs font-medium tracking-[0.2em] text-bronze uppercase">01 / Curated Portfolio</p>
+          <h1 class="mt-3 font-serif text-4xl leading-[1.05] font-medium text-canvas sm:text-5xl lg:text-6xl">
+            Properties for Sale in Uganda
+          </h1>
+          <p class="mt-4 text-sm leading-relaxed text-canvas/75 sm:text-base">
+            Every property is transparently valued in Ugandan Shillings (UGX) with verified title status and direct WhatsApp advisor access.
+          </p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-4 self-start lg:self-end" data-reveal="fade-right">
+          <span class="text-xs tracking-[0.14em] text-canvas/70 uppercase">Layout</span>
+          <div class="inline-flex border border-canvas/25 bg-canvas/5 p-1">
+            <button
+              type="button"
+              data-view-btn="spread"
+              class="min-h-[38px] bg-bronze px-4 text-[11px] font-semibold tracking-[0.14em] text-ink uppercase transition-colors"
+              aria-pressed="true"
+            >
+              Showcase
+            </button>
+            <button
+              type="button"
+              data-view-btn="index"
+              class="min-h-[38px] px-4 text-[11px] font-medium tracking-[0.14em] text-canvas/80 uppercase transition-colors hover:text-canvas"
+              aria-pressed="false"
+            >
+              Price Index
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Category & Budget Filter Bar -->
+      <div
+        class="mt-10 flex flex-col gap-4 border-t border-canvas/15 pt-6 lg:flex-row lg:items-center lg:justify-between"
+        data-reveal="fade-up"
+      >
+        <div class="flex w-full min-w-0 items-center gap-2 overflow-x-auto pb-1 sm:gap-3 lg:w-auto" role="tablist" aria-label="Filter by property type">
+          {
+            categories.map((cat, idx) => (
+              <button
+                type="button"
+                role="tab"
+                data-filter-btn={cat}
+                aria-selected={idx === 0 ? 'true' : 'false'}
+                class={`min-h-[42px] shrink-0 px-4 text-xs font-medium tracking-[0.12em] uppercase transition-colors ${
+                  idx === 0
+                    ? 'bg-bronze text-ink'
+                    : 'border border-canvas/20 bg-canvas/5 text-canvas/80 hover:border-bronze hover:text-canvas'
+                }`}
+              >
+                {cat}
+              </button>
+            ))
+          }
+        </div>
+
+        <div class="flex w-full items-center gap-3 sm:w-auto">
+          <label for="budget-filter" class="shrink-0 text-xs tracking-[0.12em] text-canvas/70 uppercase">
+            Max UGX:
+          </label>
+          <select
+            id="budget-filter"
+            class="min-h-[42px] w-full min-w-0 border border-canvas/25 bg-accent px-3 text-xs text-canvas focus:border-bronze focus:outline-none sm:w-auto"
+          >
+            <option value="all">All Budgets</option>
+            <option value="2.5">Up to UGX 2.5B</option>
+            <option value="3.5">Up to UGX 3.5B</option>
+            <option value="5.0">Up to UGX 5.0B</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Alternating Editorial Showcase -->
+  <section id="portfolio-spread-view" class="av-fade-panel mx-auto max-w-[1440px] px-5 py-12 sm:px-8 lg:px-12">
+    <div id="empty-filter-msg" class="hidden border border-rule bg-surface p-10 text-center">
+      <p class="font-serif text-2xl text-ink">No properties match that exact filter combination.</p>
+      <button
+        id="reset-filters-btn"
+        type="button"
+        class="mt-4 inline-flex min-h-[44px] items-center bg-accent px-6 text-xs font-medium tracking-[0.14em] text-canvas uppercase"
+      >
+        Reset Filters
+      </button>
+    </div>
+
+    <div class="space-y-12">
+      {
+        properties.map((item, idx) => {
+          const reversed = idx % 2 === 1;
+          return (
+            <article
+              data-property-item
+              data-category={item.category}
+              data-price-billions={String(item.priceNumericBillions)}
+              class="grid grid-cols-1 overflow-hidden border border-rule bg-white shadow-md lg:grid-cols-12"
+              data-reveal={reversed ? 'fade-right' : 'fade-left'}
+            >
+              <div class={`${reversed ? 'lg:order-2 lg:col-span-7' : 'lg:col-span-7'}`}>
+                <a href={`/properties/${item.slug}`} class="av-frame block h-full overflow-hidden bg-surface">
+                  <Image
+                    src={item.image}
+                    alt={item.imageAlt}
+                    class="aspect-[4/3] h-full w-full object-cover sm:aspect-[16/10]"
+                    widths={[640, 1200]}
+                    sizes="(max-width: 1024px) 100vw, 56vw"
+                  />
+                </a>
+              </div>
+
+              <div class={`flex flex-col justify-between p-6 sm:p-9 ${reversed ? 'lg:order-1 lg:col-span-5' : 'lg:col-span-5'}`}>
+                <div>
+                  <div class="flex flex-wrap items-center justify-between gap-2">
+                    <span class="bg-surface px-3 py-1 text-[11px] font-medium tracking-[0.14em] text-accent uppercase">
+                      {item.featuredLabel}
+                    </span>
+                    <span class="text-xs font-medium text-bronze uppercase">{item.status}</span>
+                  </div>
+
+                  <h2 class="mt-4 font-serif text-3xl font-medium text-ink sm:text-4xl">
+                    <a href={`/properties/${item.slug}`} class="transition-colors hover:text-bronze">
+                      {item.title}
+                    </a>
+                  </h2>
+                  <p class="mt-1 text-xs font-medium tracking-[0.12em] text-muted uppercase">
+                    {item.location} / {item.region}
+                  </p>
+
+                  <p class="mt-4 font-serif text-2xl font-semibold text-accent sm:text-3xl">
+                    {item.price}
+                  </p>
+
+                  <p class="mt-4 text-sm leading-relaxed text-muted">
+                    {item.summary}
+                  </p>
+
+                  <div class="mt-6 grid grid-cols-2 gap-3 border-y border-rule py-3.5 text-xs sm:grid-cols-3">
+                    <div>
+                      <span class="block text-muted uppercase">Interior</span>
+                      <span class="mt-1 block font-medium text-ink">{item.area}</span>
+                    </div>
+                    <div>
+                      <span class="block text-muted uppercase">Rooms</span>
+                      <span class="mt-1 block font-medium text-ink">{item.bedrooms} Bed / {item.bathrooms} Bath</span>
+                    </div>
+                    <div>
+                      <span class="block text-muted uppercase">Land</span>
+                      <span class="mt-1 block font-medium text-ink">{item.plot}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mt-6 flex flex-wrap gap-3">
+                  <a
+                    href={`/properties/${item.slug}`}
+                    class="inline-flex min-h-[44px] flex-1 items-center justify-center gap-2 bg-accent px-5 py-2.5 text-xs font-medium tracking-[0.14em] text-canvas uppercase transition-colors hover:bg-bronze hover:text-ink"
+                  >
+                    <span>View Property</span>
+                    <ArrowIcon class="h-3 w-4" />
+                  </a>
+                  <a
+                    href={`https://wa.me/256772410890?text=${encodeURIComponent(`Hello Demo Real Estate, I would like to ask about ${item.title} (${item.price}).`)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-flex min-h-[44px] items-center justify-center gap-2 bg-whatsapp px-4 py-2.5 text-xs font-medium tracking-[0.12em] text-canvas uppercase transition-colors hover:bg-ink"
+                  >
+                    <WhatsAppIcon class="h-4 w-4" />
+                    <span>WhatsApp</span>
+                  </a>
+                </div>
+              </div>
+            </article>
+          );
+        })
+      }
+    </div>
+  </section>
+
+  <!-- Price Index Table Mode -->
+  <section id="portfolio-index-view" class="av-fade-panel hidden mx-auto max-w-[1440px] px-5 py-12 sm:px-8 lg:px-12">
+    <div class="divide-y divide-rule border border-rule bg-white shadow-md">
+      {
+        properties.map((item) => (
+          <div
+            data-property-item
+            data-category={item.category}
+            data-price-billions={String(item.priceNumericBillions)}
+            class="grid grid-cols-1 gap-4 p-5 transition-colors hover:bg-surface/40 md:grid-cols-12 md:items-center md:gap-6"
+          >
+            <div class="flex items-center gap-4 md:col-span-5">
+              <div class="h-16 w-22 shrink-0 overflow-hidden bg-surface">
+                <Image
+                  src={item.image}
+                  alt={item.imageAlt}
+                  class="h-full w-full object-cover"
+                  widths={[220]}
+                  sizes="88px"
+                />
+              </div>
+              <div>
+                <h2 class="font-serif text-2xl font-medium text-ink">
+                  <a href={`/properties/${item.slug}`} class="hover:text-bronze">{item.title}</a>
+                </h2>
+                <p class="text-xs text-muted">{item.location}, {item.region}</p>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between text-xs text-muted md:col-span-3 md:justify-start md:gap-6">
+              <span>{item.area}</span>
+              <span>{item.bedrooms} Bed</span>
+              <span>{item.category}</span>
+            </div>
+
+            <div class="flex flex-wrap items-center justify-between gap-3 md:col-span-4 md:justify-end">
+              <span class="font-serif text-xl font-semibold text-accent">{item.price}</span>
+              <a
+                href={`/properties/${item.slug}`}
+                class="inline-flex min-h-[38px] items-center gap-2 bg-accent px-4 text-[11px] font-medium tracking-[0.14em] text-canvas uppercase hover:bg-bronze hover:text-ink"
+              >
+                <span>Inspect</span>
+                <ArrowIcon class="h-3 w-3.5" />
+              </a>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  function initPortfolioControls() {
+    const filterButtons = document.querySelectorAll<HTMLButtonElement>('[data-filter-btn]');
+    const budgetSelect = document.getElementById('budget-filter') as HTMLSelectElement | null;
+    const resetBtn = document.getElementById('reset-filters-btn');
+    const emptyMsg = document.getElementById('empty-filter-msg');
+    const viewButtons = document.querySelectorAll<HTMLButtonElement>('[data-view-btn]');
+    const spreadView = document.getElementById('portfolio-spread-view');
+    const indexView = document.getElementById('portfolio-index-view');
+    const items = document.querySelectorAll<HTMLElement>('[data-property-item]');
+
+    if (!spreadView || !indexView || filterButtons.length === 0) return;
+
+    let activeCategory = 'All';
+    let maxBillions = 'all';
+    let activeView: 'spread' | 'index' = 'spread';
+
+    const params = new URLSearchParams(window.location.search);
+    const paramCat = params.get('category');
+    const paramBudget = params.get('maxBillions');
+    if (paramCat) activeCategory = paramCat;
+    if (paramBudget) maxBillions = paramBudget;
+    if (budgetSelect && maxBillions) budgetSelect.value = maxBillions;
+
+    const updateButtonStyles = () => {
+      filterButtons.forEach((btn) => {
+        const isCurrent = btn.getAttribute('data-filter-btn') === activeCategory;
+        btn.setAttribute('aria-selected', String(isCurrent));
+        btn.className = `min-h-[42px] shrink-0 px-4 text-xs font-medium tracking-[0.12em] uppercase transition-colors ${
+          isCurrent
+            ? 'bg-bronze text-ink'
+            : 'border border-canvas/20 bg-canvas/5 text-canvas/80 hover:border-bronze hover:text-canvas'
+        }`;
+      });
+    };
+
+    const runFilter = (animate = true) => {
+      updateButtonStyles();
+      const currentContainer = activeView === 'spread' ? spreadView : indexView;
+
+      const applyVisibility = () => {
+        let visibleCountInSpread = 0;
+        items.forEach((el) => {
+          const cat = el.getAttribute('data-category');
+          const priceVal = parseFloat(el.getAttribute('data-price-billions') || '0');
+          const matchesCat = activeCategory === 'All' || cat === activeCategory;
+          const matchesBudget = maxBillions === 'all' || priceVal <= parseFloat(maxBillions);
+          const visible = matchesCat && matchesBudget;
+
+          el.classList.toggle('hidden', !visible);
+          if (visible) {
+            el.classList.add('is-visible');
+            if (spreadView.contains(el)) visibleCountInSpread++;
+          }
+        });
+        if (emptyMsg) {
+          emptyMsg.classList.toggle('hidden', visibleCountInSpread > 0);
+        }
+      };
+
+      if (!animate) {
+        applyVisibility();
+        return;
+      }
+
+      currentContainer.classList.add('is-fading');
+      window.setTimeout(() => {
+        applyVisibility();
+        currentContainer.classList.remove('is-fading');
+      }, 220);
+    };
+
+    const switchView = (mode: 'spread' | 'index') => {
+      if (mode === activeView) return;
+      const outgoing = activeView === 'spread' ? spreadView : indexView;
+      const incoming = mode === 'spread' ? spreadView : indexView;
+      activeView = mode;
+
+      viewButtons.forEach((btn) => {
+        const isCurrent = btn.getAttribute('data-view-btn') === mode;
+        btn.setAttribute('aria-pressed', String(isCurrent));
+        btn.classList.toggle('bg-bronze', isCurrent);
+        btn.classList.toggle('text-ink', isCurrent);
+        btn.classList.toggle('font-semibold', isCurrent);
+        btn.classList.toggle('text-canvas/80', !isCurrent);
+      });
+
+      outgoing.classList.add('is-fading');
+      window.setTimeout(() => {
+        outgoing.classList.add('hidden');
+        outgoing.classList.remove('is-fading');
+        incoming.classList.add('is-fading');
+        incoming.classList.remove('hidden');
+        requestAnimationFrame(() => incoming.classList.remove('is-fading'));
+      }, 220);
+    };
+
+    filterButtons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        activeCategory = btn.getAttribute('data-filter-btn') || 'All';
+        runFilter(true);
+      });
+    });
+
+    budgetSelect?.addEventListener('change', () => {
+      maxBillions = budgetSelect.value;
+      runFilter(true);
+    });
+
+    resetBtn?.addEventListener('click', () => {
+      activeCategory = 'All';
+      maxBillions = 'all';
+      if (budgetSelect) budgetSelect.value = 'all';
+      runFilter(true);
+    });
+
+    viewButtons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const mode = btn.getAttribute('data-view-btn') as 'spread' | 'index';
+        if (mode) switchView(mode);
+      });
+    });
+
+    runFilter(false);
+  }
+
+  document.addEventListener('astro:page-load', initPortfolioControls);
+</script>

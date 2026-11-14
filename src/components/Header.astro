@@ -1,0 +1,146 @@
+---
+const navItems = [
+  { label: 'Properties', href: '/properties', num: '01' },
+  { label: 'About Us', href: '/about', num: '02' },
+  { label: 'Market Journal', href: '/journal', num: '03' },
+  { label: 'Contact', href: '/contact', num: '04' }
+];
+---
+
+<header
+  transition:persist="site-header"
+  class="sticky top-0 z-40 border-b border-rule bg-canvas/95 shadow-sm backdrop-blur-md"
+>
+  <div class="mx-auto flex h-16 max-w-[1440px] items-center justify-between px-5 sm:h-20 sm:px-8 lg:px-12">
+    <a
+      href="/"
+      class="group inline-flex min-h-[44px] min-w-0 items-center gap-2.5 text-ink focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-ink sm:gap-3"
+      aria-label="Demo Real Estate Home"
+    >
+      <span class="flex h-8 w-8 shrink-0 items-center justify-center bg-accent text-bronze transition-transform duration-500 group-hover:scale-105">
+        <span class="font-serif text-base font-semibold tracking-wider">D</span>
+      </span>
+      <div class="min-w-0">
+        <span class="block truncate font-serif text-base leading-none font-semibold tracking-[0.06em] uppercase sm:text-xl">
+          Demo Real Estate
+        </span>
+        <span class="hidden text-[10px] tracking-[0.18em] text-muted uppercase sm:block">
+          Kampala / Entebbe / Fort Portal
+        </span>
+      </div>
+    </a>
+
+    <div class="hidden items-center gap-7 md:flex lg:gap-9">
+      <nav aria-label="Primary navigation" class="flex items-center gap-6 lg:gap-8">
+        {
+          navItems.map((item) => (
+            <a
+              href={item.href}
+              data-nav-link={item.href}
+              class="nav-link relative inline-flex min-h-[44px] items-center text-[13px] font-medium tracking-[0.1em] text-muted uppercase transition-colors duration-300 hover:text-ink"
+            >
+              <span>{item.label}</span>
+              <span class="nav-underline absolute right-0 bottom-2 left-0 h-0.5 origin-left scale-x-0 bg-bronze transition-transform duration-300" />
+            </a>
+          ))
+        }
+      </nav>
+
+      <a
+        href="/contact"
+        class="inline-flex min-h-[42px] items-center bg-accent px-5 py-2 text-xs font-medium tracking-[0.14em] text-canvas uppercase transition-colors duration-300 hover:bg-bronze hover:text-ink"
+      >
+        Book a Viewing
+      </a>
+    </div>
+
+    <button
+      id="mobile-menu-toggle"
+      type="button"
+      class="inline-flex h-11 w-11 items-center justify-center border border-rule bg-surface/60 text-ink md:hidden"
+      aria-label="Open navigation menu"
+      aria-expanded="false"
+      aria-controls="mobile-nav-drawer"
+    >
+      <span class="sr-only">Menu</span>
+      <div class="flex w-5 flex-col gap-1.5" aria-hidden="true">
+        <span class="block h-0.5 w-full bg-ink transition-transform duration-300"></span>
+        <span class="block h-0.5 w-3.5 self-end bg-bronze transition-all duration-300"></span>
+      </div>
+    </button>
+  </div>
+  <div id="scroll-progress" class="h-0.5 w-0 bg-bronze transition-[width] duration-75"></div>
+</header>
+
+<div
+  id="mobile-nav-drawer"
+  transition:persist="mobile-drawer"
+  aria-hidden="true"
+  class="pointer-events-none fixed inset-0 z-50 flex flex-col justify-between bg-accent px-6 pt-6 pb-10 text-canvas opacity-0 transition-opacity duration-400 md:hidden"
+>
+  <div class="flex items-center justify-between border-b border-canvas/15 pb-4">
+    <a href="/" class="inline-flex min-h-[44px] items-center gap-3 text-canvas" data-drawer-link>
+      <span class="flex h-8 w-8 items-center justify-center bg-bronze text-ink">
+        <span class="font-serif text-base font-semibold">D</span>
+      </span>
+      <span class="font-serif text-lg font-semibold tracking-[0.08em] uppercase">Demo Real Estate</span>
+    </a>
+    <button
+      id="mobile-menu-close"
+      type="button"
+      class="inline-flex h-11 items-center justify-center border border-canvas/25 px-3 text-xs tracking-[0.14em] text-canvas uppercase"
+      aria-label="Close navigation menu"
+    >
+      Close
+    </button>
+  </div>
+
+  <nav aria-label="Mobile navigation" class="my-auto flex flex-col gap-1 py-6">
+    <a
+      href="/"
+      data-drawer-link
+      class="group flex min-h-[56px] items-baseline gap-5 border-b border-canvas/15 py-3 text-canvas"
+    >
+      <span class="text-xs tracking-[0.18em] text-bronze">00</span>
+      <span class="font-serif text-3xl">Home</span>
+    </a>
+    {
+      navItems.map((item) => (
+        <a
+          href={item.href}
+          data-drawer-link
+          class="group flex min-h-[56px] items-baseline gap-5 border-b border-canvas/15 py-3 text-canvas"
+        >
+          <span class="text-xs tracking-[0.18em] text-bronze">{item.num}</span>
+          <span class="font-serif text-3xl">{item.label}</span>
+        </a>
+      ))
+    }
+  </nav>
+
+  <div class="space-y-4 border-t border-canvas/15 pt-5">
+    <a
+      href="https://wa.me/256772410890?text=Hello%20Demo%20Real%20Estate%2C%20I%20would%20like%20to%20speak%20with%20an%20agent."
+      target="_blank"
+      rel="noopener noreferrer"
+      class="flex min-h-[48px] w-full items-center justify-center bg-whatsapp px-5 text-xs font-medium tracking-[0.15em] text-canvas uppercase"
+    >
+      Chat With Agent on WhatsApp
+    </a>
+    <div class="grid grid-cols-3 gap-4 text-[11px] tracking-[0.12em] text-canvas/65 uppercase">
+      <span>Kampala</span>
+      <span class="text-center">Entebbe</span>
+      <span class="text-right">Fort Portal</span>
+    </div>
+  </div>
+</div>
+
+<style>
+  .nav-link.is-active {
+    color: var(--color-ink);
+  }
+  .nav-link.is-active .nav-underline,
+  .nav-link:hover .nav-underline {
+    transform: scaleX(1);
+  }
+</style>

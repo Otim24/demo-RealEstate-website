@@ -1,0 +1,257 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ArrowIcon from '../components/ArrowIcon.astro';
+import WhatsAppIcon from '../components/WhatsAppIcon.astro';
+import { properties } from '../data/properties';
+---
+
+<BaseLayout
+  title="Contact | Demo Real Estate Uganda"
+  description="Arrange a private property tour in Kampala, Entebbe, or Fort Portal, or message an agent on WhatsApp."
+>
+  <section class="bg-accent pt-12 pb-14 text-canvas sm:pt-16 lg:pt-20">
+    <div class="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-12">
+      <div class="max-w-2xl" data-reveal="fade-left">
+        <p class="text-xs font-medium tracking-[0.2em] text-bronze uppercase">04 / Contact Demo Real Estate</p>
+        <h1 class="mt-3 font-serif text-4xl leading-[1.06] font-medium text-canvas sm:text-5xl">
+          Schedule a viewing or text an agent directly.
+        </h1>
+        <p class="mt-4 text-sm leading-relaxed text-canvas/80 sm:text-base">
+          Connect with our Kampala, Entebbe, or Fort Portal advisory desks by form or instant WhatsApp message for UGX pricing schedules and private tours.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-[1440px] px-5 py-12 sm:px-8 sm:py-16 lg:px-12">
+    <div class="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-14">
+      <div class="space-y-6 lg:col-span-5" data-reveal="fade-left">
+        <div class="bg-whatsapp p-7 text-canvas shadow-lg">
+          <p class="text-[11px] font-medium tracking-[0.18em] text-canvas/80 uppercase">Fastest Response</p>
+          <h2 class="mt-2 font-serif text-3xl text-canvas">Chat Directly on WhatsApp</h2>
+          <p class="mt-3 text-sm leading-relaxed text-canvas/85">
+            Need same-day tour availability, location pins, or payment plans in UGX? Message our Kampala desk right away.
+          </p>
+          <a
+            href="https://wa.me/256772410890?text=Hello%20Demo%20Real%20Estate%2C%20I%20would%20like%20to%20arrange%20a%20property%20viewing."
+            target="_blank"
+            rel="noopener noreferrer"
+            class="mt-6 inline-flex min-h-[46px] items-center gap-3 bg-canvas px-5 py-2.5 text-xs font-semibold tracking-[0.14em] text-ink uppercase transition-colors hover:bg-bronze"
+          >
+            <WhatsAppIcon class="h-4 w-4 text-whatsapp" />
+            <span>Open WhatsApp (+256 772 410 890)</span>
+          </a>
+        </div>
+
+        <div class="space-y-6 border border-rule bg-surface p-7">
+          <div>
+            <h3 class="text-xs font-semibold tracking-[0.16em] text-accent uppercase">Kampala (Kololo) Office</h3>
+            <p class="mt-1.5 text-sm text-ink">Acacia Avenue 24, Kololo, Kampala</p>
+            <p class="mt-0.5 text-xs text-muted">+256 772 410 890 / kampala@demorealestate.ug</p>
+          </div>
+
+          <div class="border-t border-rule pt-4">
+            <h3 class="text-xs font-semibold tracking-[0.16em] text-accent uppercase">Entebbe Waterfront Desk</h3>
+            <p class="mt-1.5 text-sm text-ink">Bugonga Road 12, Entebbe</p>
+            <p class="mt-0.5 text-xs text-muted">+256 752 814 320 / entebbe@demorealestate.ug</p>
+          </div>
+
+          <div class="border-t border-rule pt-4">
+            <h3 class="text-xs font-semibold tracking-[0.16em] text-accent uppercase">Fort Portal Highlands</h3>
+            <p class="mt-1.5 text-sm text-ink">Kabarole Ridge Suite 3, Fort Portal</p>
+            <p class="mt-0.5 text-xs text-muted">+256 782 619 045 / highlands@demorealestate.ug</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="lg:col-span-7" data-reveal="fade-right" data-delay="1">
+        <div class="border border-rule bg-white p-6 shadow-xl sm:p-10">
+          <form id="inquiry-form" class="av-fade-panel space-y-6">
+            <div class="border-b border-rule pb-4">
+              <p class="text-xs font-medium tracking-[0.16em] text-bronze uppercase">Viewing Request Form</p>
+              <h2 class="mt-1 font-serif text-3xl text-ink">Request a Private Consultation</h2>
+            </div>
+
+            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+              <div>
+                <label for="full-name" class="block text-[11px] font-medium tracking-[0.14em] text-muted uppercase">
+                  Full Name
+                </label>
+                <input
+                  id="full-name"
+                  name="name"
+                  type="text"
+                  required
+                  placeholder="Daniel Kato"
+                  class="mt-2 min-h-[44px] w-full border border-rule bg-canvas px-3.5 py-2 text-sm text-ink placeholder:text-muted/60 focus:border-ink focus:outline-none"
+                />
+              </div>
+
+              <div>
+                <label for="phone-or-email" class="block text-[11px] font-medium tracking-[0.14em] text-muted uppercase">
+                  Email or WhatsApp Phone
+                </label>
+                <input
+                  id="phone-or-email"
+                  name="contact"
+                  type="text"
+                  required
+                  placeholder="+256 772 000 000 or email"
+                  class="mt-2 min-h-[44px] w-full border border-rule bg-canvas px-3.5 py-2 text-sm text-ink placeholder:text-muted/60 focus:border-ink focus:outline-none"
+                />
+              </div>
+            </div>
+
+            <div class="min-w-0">
+              <label for="residence-select" class="block text-[11px] font-medium tracking-[0.14em] text-muted uppercase">
+                Property of Interest (UGX)
+              </label>
+              <select
+                id="residence-select"
+                name="residence"
+                class="mt-2 min-h-[44px] w-full max-w-full border border-rule bg-canvas px-3.5 py-2 text-sm text-ink focus:border-ink focus:outline-none"
+              >
+                <option value="General Advisory">General Portfolio Consultation</option>
+                {
+                  properties.map((item) => (
+                    <option value={item.slug}>
+                      {item.title} - {item.location} ({item.price})
+                    </option>
+                  ))
+                }
+                <option value="List Property">List a Property With Demo Real Estate</option>
+              </select>
+            </div>
+
+            <div>
+              <span class="block text-[11px] font-medium tracking-[0.14em] text-muted uppercase">
+                Preferred Contact Format
+              </span>
+              <div class="mt-2.5 grid grid-cols-1 gap-3 sm:grid-cols-3">
+                <label class="flex min-h-[44px] cursor-pointer items-center gap-2.5 border border-rule bg-canvas px-3.5 py-2 text-xs text-ink transition-colors has-[:checked]:border-accent has-[:checked]:bg-surface">
+                  <input type="radio" name="format" value="In-Person Viewing" checked class="accent-accent" />
+                  <span>In-Person Tour</span>
+                </label>
+                <label class="flex min-h-[44px] cursor-pointer items-center gap-2.5 border border-rule bg-canvas px-3.5 py-2 text-xs text-ink transition-colors has-[:checked]:border-accent has-[:checked]:bg-surface">
+                  <input type="radio" name="format" value="WhatsApp Video Tour" class="accent-accent" />
+                  <span>WhatsApp Video</span>
+                </label>
+                <label class="flex min-h-[44px] cursor-pointer items-center gap-2.5 border border-rule bg-canvas px-3.5 py-2 text-xs text-ink transition-colors has-[:checked]:border-accent has-[:checked]:bg-surface">
+                  <input type="radio" name="format" value="Title & Floor Plan Pack" class="accent-accent" />
+                  <span>Title &amp; Plans</span>
+                </label>
+              </div>
+            </div>
+
+            <div>
+              <label for="message" class="block text-[11px] font-medium tracking-[0.14em] text-muted uppercase">
+                Preferred Viewing Dates &amp; Notes
+              </label>
+              <textarea
+                id="message"
+                name="message"
+                rows={4}
+                placeholder="Tell us your preferred viewing day, financing timeline, or questions."
+                class="mt-2 w-full border border-rule bg-canvas p-3.5 text-sm text-ink placeholder:text-muted/60 focus:border-ink focus:outline-none"
+              ></textarea>
+            </div>
+
+            <button
+              type="submit"
+              class="inline-flex min-h-[48px] w-full items-center justify-center gap-3 bg-accent px-7 py-3 text-xs font-medium tracking-[0.16em] text-canvas uppercase transition-colors duration-300 hover:bg-bronze hover:text-ink sm:w-auto"
+            >
+              <span>Submit Inquiry</span>
+              <ArrowIcon class="h-3 w-4" />
+            </button>
+          </form>
+
+          <div id="inquiry-confirmation" class="av-fade-panel hidden is-fading py-8">
+            <p class="text-xs font-medium tracking-[0.18em] text-bronze uppercase">Request Logged</p>
+            <h2 class="mt-2 font-serif text-3xl text-ink">
+              Thank you for contacting Demo Real Estate.
+            </h2>
+            <p id="confirmation-summary" class="mt-4 text-sm leading-relaxed text-muted"></p>
+            <div class="mt-8 flex flex-wrap gap-4">
+              <a
+                id="confirmation-wa-btn"
+                href="https://wa.me/256772410890"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex min-h-[44px] items-center gap-2 bg-whatsapp px-5 text-xs font-medium tracking-[0.14em] text-canvas uppercase hover:bg-accent"
+              >
+                <WhatsAppIcon class="h-4 w-4" />
+                <span>Send Immediately via WhatsApp</span>
+              </a>
+              <button
+                id="inquiry-reset"
+                type="button"
+                class="inline-flex min-h-[44px] items-center border border-rule px-5 text-xs font-medium tracking-[0.14em] text-ink uppercase hover:border-ink"
+              >
+                New Inquiry
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  function initContactForm() {
+    const form = document.getElementById('inquiry-form') as HTMLFormElement | null;
+    const confirmation = document.getElementById('inquiry-confirmation');
+    const summaryEl = document.getElementById('confirmation-summary');
+    const selectEl = document.getElementById('residence-select') as HTMLSelectElement | null;
+    const waConfirmBtn = document.getElementById('confirmation-wa-btn') as HTMLAnchorElement | null;
+    const resetBtn = document.getElementById('inquiry-reset');
+
+    if (!form || !confirmation || !summaryEl) return;
+
+    const params = new URLSearchParams(window.location.search);
+    const residenceParam = params.get('residence');
+    if (residenceParam && selectEl) {
+      const optionExists = Array.from(selectEl.options).some((opt) => opt.value === residenceParam);
+      if (optionExists) selectEl.value = residenceParam;
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const data = new FormData(form);
+      const name = String(data.get('name') || 'Guest');
+      const format = String(data.get('format') || 'In-Person Viewing');
+      const selectedLabel = selectEl?.options[selectEl.selectedIndex]?.text || 'Selected Properties';
+
+      summaryEl.textContent = `${name}, a Demo Real Estate advisor will respond regarding ${selectedLabel} (${format}). You can also open this request directly in WhatsApp below.`;
+      if (waConfirmBtn) {
+        const msg = encodeURIComponent(
+          `Hello Demo Real Estate, my name is ${name}. I submitted a ${format} inquiry for ${selectedLabel}.`
+        );
+        waConfirmBtn.href = `https://wa.me/256772410890?text=${msg}`;
+      }
+
+      form.classList.add('is-fading');
+      window.setTimeout(() => {
+        form.classList.add('hidden');
+        confirmation.classList.remove('hidden');
+        requestAnimationFrame(() => {
+          confirmation.classList.remove('is-fading');
+        });
+      }, 240);
+    });
+
+    resetBtn?.addEventListener('click', () => {
+      confirmation.classList.add('is-fading');
+      window.setTimeout(() => {
+        confirmation.classList.add('hidden');
+        form.reset();
+        form.classList.remove('hidden');
+        requestAnimationFrame(() => {
+          form.classList.remove('is-fading');
+        });
+      }, 240);
+    });
+  }
+
+  document.addEventListener('astro:page-load', initContactForm);
+</script>

@@ -1,0 +1,116 @@
+---
+import WhatsAppIcon from './WhatsAppIcon.astro';
+import ArrowIcon from './ArrowIcon.astro';
+---
+
+<div
+  id="whatsapp-concierge"
+  transition:persist="whatsapp-widget"
+  class="fixed right-4 bottom-4 z-40 sm:right-6 sm:bottom-6"
+>
+  <!-- Popover Panel -->
+  <div
+    id="wa-popover"
+    role="dialog"
+    aria-label="Text a Demo Real Estate agent on WhatsApp"
+    aria-hidden="true"
+    class="wa-popover invisible pointer-events-none mb-3 max-h-[80dvh] w-[min(24rem,calc(100vw-2rem))] origin-bottom-right translate-y-3 scale-95 overflow-y-auto border border-rule bg-canvas p-5 opacity-0 shadow-2xl"
+  >
+    <div class="flex items-start justify-between gap-4 border-b border-rule pb-3.5">
+      <div>
+        <p class="text-[11px] font-medium tracking-[0.16em] text-whatsapp uppercase">Demo Real Estate Desk</p>
+        <h2 class="mt-1 font-serif text-2xl font-medium text-ink">Text an Agent on WhatsApp</h2>
+        <p class="mt-0.5 text-xs text-muted">Instant chat with our Kampala &amp; Entebbe advisors</p>
+      </div>
+      <button
+        id="wa-close-btn"
+        type="button"
+        class="inline-flex h-10 w-10 shrink-0 items-center justify-center border border-rule text-[11px] tracking-[0.1em] text-muted uppercase hover:border-ink hover:text-ink"
+        aria-label="Close WhatsApp concierge"
+      >
+        Close
+      </button>
+    </div>
+
+    <div class="mt-4 space-y-4">
+      <div>
+        <label for="wa-desk-select" class="block text-[11px] font-medium tracking-[0.14em] text-muted uppercase">
+          Choose Office Desk
+        </label>
+        <select
+          id="wa-desk-select"
+          class="mt-1.5 min-h-[42px] w-full border border-rule bg-surface px-3 py-2 text-xs text-ink focus:border-ink focus:outline-none"
+        >
+          <option value="256772410890">Kampala (Kololo) Desk (+256 772 410 890)</option>
+          <option value="256752814320">Entebbe Waterfront Desk (+256 752 814 320)</option>
+          <option value="256782619045">Fort Portal Highlands Desk (+256 782 619 045)</option>
+        </select>
+      </div>
+
+      <div>
+        <span class="block text-[11px] font-medium tracking-[0.14em] text-muted uppercase">Quick Questions</span>
+        <div class="mt-2 flex flex-wrap gap-2">
+          <button
+            type="button"
+            data-wa-preset="Hello Demo Real Estate, I would like to book a viewing this week."
+            class="min-h-[34px] border border-rule bg-surface px-2.5 py-1 text-[11px] text-ink transition-colors hover:border-ink hover:bg-bronze/20"
+          >
+            Book a viewing
+          </button>
+          <button
+            type="button"
+            data-wa-preset="Hello Demo Real Estate, please share UGX pricing and payment terms."
+            class="min-h-[34px] border border-rule bg-surface px-2.5 py-1 text-[11px] text-ink transition-colors hover:border-ink hover:bg-bronze/20"
+          >
+            UGX payment terms
+          </button>
+          <button
+            type="button"
+            data-wa-preset="Hello Demo Real Estate, do you have off-market homes in Kololo or Entebbe?"
+            class="min-h-[34px] border border-rule bg-surface px-2.5 py-1 text-[11px] text-ink transition-colors hover:border-ink hover:bg-bronze/20"
+          >
+            Off-market homes
+          </button>
+        </div>
+      </div>
+
+      <div>
+        <label for="wa-message-input" class="block text-[11px] font-medium tracking-[0.14em] text-muted uppercase">
+          Your Message
+        </label>
+        <textarea
+          id="wa-message-input"
+          rows={3}
+          class="mt-1.5 w-full border border-rule bg-white p-2.5 text-xs leading-relaxed text-ink placeholder:text-muted/60 focus:border-ink focus:outline-none"
+        >Hello Demo Real Estate, I would like to speak with an agent about your listed properties.</textarea>
+      </div>
+
+      <a
+        id="wa-launch-link"
+        href="https://wa.me/256772410890?text=Hello%20Demo%20Real%20Estate%2C%20I%20would%20like%20to%20speak%20with%20an%20agent."
+        target="_blank"
+        rel="noopener noreferrer"
+        class="flex min-h-[46px] w-full items-center justify-center gap-3 bg-whatsapp px-5 py-3 text-xs font-medium tracking-[0.14em] text-canvas uppercase transition-colors hover:bg-accent"
+      >
+        <WhatsAppIcon class="h-4 w-4" />
+        <span>Open WhatsApp Chat</span>
+        <ArrowIcon class="h-3 w-4" />
+      </a>
+    </div>
+  </div>
+
+  <!-- Floating Trigger Button -->
+  <div class="flex justify-end">
+    <button
+      id="wa-toggle-btn"
+      type="button"
+      aria-expanded="false"
+      aria-controls="wa-popover"
+      class="inline-flex min-h-[50px] items-center gap-2.5 bg-whatsapp px-5 py-3 text-xs font-medium tracking-[0.12em] text-canvas uppercase shadow-xl transition-all duration-300 hover:-translate-y-0.5 hover:bg-accent"
+    >
+      <WhatsAppIcon class="h-5 w-5 shrink-0" />
+      <span class="hidden sm:inline">WhatsApp an Agent</span>
+      <span class="sm:hidden">WhatsApp</span>
+    </button>
+  </div>
+</div>

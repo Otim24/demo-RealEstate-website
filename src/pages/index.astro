@@ -1,0 +1,569 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ArrowIcon from '../components/ArrowIcon.astro';
+import WhatsAppIcon from '../components/WhatsAppIcon.astro';
+import { properties } from '../data/properties';
+import { journalEntries } from '../data/journal';
+import heroBg from '../assets/images/hero-villa.jpg';
+
+const flagship = properties[1]; // Lakefront Pavilion Entebbe
+const spotlightA = properties[2]; // Nakasero Sky Loft
+const spotlightB = properties[3]; // Munyonyo Courtyard House
+const leadEssay = journalEntries[0];
+
+const stats = [
+  { figure: 'UGX 180B+', label: 'Closed Sales Volume' },
+  { figure: 'UGX 2.15B - 6.4B', label: 'Current Price Range' },
+  { figure: '100%', label: 'Verified Freehold & Mailo Titles' },
+  { figure: 'Under 15m', label: 'WhatsApp Agent Response' }
+];
+
+const steps = [
+  {
+    num: '01',
+    title: 'Curated Selection & Title Verification',
+    copy: 'Every residence listed by Demo Real Estate undergoes full land registry verification, structural inspection, and solar or water infrastructure checks before presentation.'
+  },
+  {
+    num: '02',
+    title: 'Private On-Site or Live Video Tours',
+    copy: 'Schedule discreet private viewings across Kololo, Nakasero, Munyonyo, Entebbe, or Fort Portal, or tour properties live via WhatsApp video with a senior advisor.'
+  },
+  {
+    num: '03',
+    title: 'Structured Negotiation & Handover',
+    copy: 'Our legal and valuation partners coordinate offer terms in Ugandan Shillings, bank or escrow settlement, and seamless utility and key handover.'
+  }
+];
+---
+
+<BaseLayout
+  title="Demo Real Estate | Luxury Homes & Estates in Uganda (UGX)"
+  description="Explore luxury villas, penthouses, courtyard townhouses, and waterfront estates across Kampala, Entebbe, and Fort Portal priced in Ugandan Shillings."
+>
+  <!-- Section 1: Full-Bleed Dramatic Hero + Quick Finder -->
+  <section class="relative overflow-hidden bg-accent text-canvas">
+    <div class="absolute inset-0">
+      <Image
+        src={heroBg}
+        alt="Luxury limestone villa in Kololo at golden hour"
+        class="h-full w-full object-cover opacity-55"
+        widths={[960, 1600]}
+        sizes="100vw"
+        loading="eager"
+      />
+      <div class="absolute inset-0 bg-gradient-to-r from-accent via-accent/85 to-accent/35"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-accent via-transparent to-accent/30"></div>
+    </div>
+
+    <div class="relative mx-auto max-w-[1440px] px-5 pt-14 pb-12 sm:px-8 sm:pt-20 sm:pb-16 lg:px-12 lg:pt-24 lg:pb-20">
+      <div class="max-w-3xl">
+        <div
+          class="inline-flex items-center gap-3 border border-bronze/50 bg-accent/70 px-4 py-1.5 text-[11px] font-medium tracking-[0.2em] text-bronze uppercase backdrop-blur-sm"
+          data-reveal="fade-left"
+        >
+          <span>Demo Real Estate Uganda</span>
+          <span>/</span>
+          <span>UGX Portfolio</span>
+        </div>
+
+        <h1
+          class="mt-6 font-serif text-4xl leading-[1.03] font-medium tracking-tight text-canvas sm:text-6xl lg:text-7xl"
+          data-reveal="fade-up"
+          data-delay="1"
+        >
+          Distinguished homes across Kampala, Entebbe, and Fort Portal.
+        </h1>
+
+        <p
+          class="mt-6 max-w-2xl text-base leading-relaxed text-canvas/85 sm:text-lg"
+          data-reveal="fade-up"
+          data-delay="2"
+        >
+          Private villas, lakefront estates, and diplomatic penthouses represented with transparent Ugandan Shilling valuations and instant WhatsApp access to senior property advisors.
+        </p>
+
+        <div class="mt-8 flex flex-wrap items-center gap-4" data-reveal="fade-up" data-delay="3">
+          <a
+            href="/properties"
+            class="inline-flex min-h-[50px] items-center gap-3 bg-bronze px-7 py-3 text-xs font-semibold tracking-[0.16em] text-ink uppercase transition-colors duration-300 hover:bg-canvas"
+          >
+            <span>Explore All Properties</span>
+            <ArrowIcon class="h-3 w-4" />
+          </a>
+
+          <a
+            href="https://wa.me/256772410890?text=Hello%20Demo%20Real%20Estate%2C%20I%20would%20like%20to%20inquire%20about%20available%20homes."
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex min-h-[50px] items-center gap-3 border border-canvas/35 bg-whatsapp px-6 py-3 text-xs font-medium tracking-[0.16em] text-canvas uppercase transition-colors duration-300 hover:bg-canvas hover:text-ink"
+          >
+            <WhatsAppIcon class="h-4 w-4" />
+            <span>WhatsApp an Agent</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Integrated Quick Property Finder Bar -->
+      <form
+        id="hero-quick-finder"
+        action="/properties"
+        method="get"
+        class="mt-12 grid grid-cols-1 gap-3 border border-canvas/15 bg-canvas p-4 text-ink shadow-2xl sm:grid-cols-2 lg:mt-16 lg:grid-cols-12 lg:items-end lg:gap-4 lg:p-6"
+        data-reveal="zoom-in"
+        data-delay="2"
+      >
+        <div class="min-w-0 lg:col-span-4">
+          <label for="finder-category" class="block text-[11px] font-medium tracking-[0.14em] text-muted uppercase">
+            Property Type
+          </label>
+          <select
+            id="finder-category"
+            name="category"
+            class="mt-1.5 min-h-[44px] w-full max-w-full border border-rule bg-surface/60 px-3 text-sm text-ink focus:border-ink focus:outline-none"
+          >
+            <option value="All">All Property Types</option>
+            <option value="Villas">Private Villas</option>
+            <option value="Penthouses">Skyline Penthouses</option>
+            <option value="Townhouses">Courtyard Townhouses</option>
+            <option value="Estates">Waterfront &amp; Highland Estates</option>
+          </select>
+        </div>
+
+        <div class="min-w-0 lg:col-span-5">
+          <label for="finder-budget" class="block text-[11px] font-medium tracking-[0.14em] text-muted uppercase">
+            Maximum Budget (UGX)
+          </label>
+          <select
+            id="finder-budget"
+            name="maxBillions"
+            class="mt-1.5 min-h-[44px] w-full max-w-full border border-rule bg-surface/60 px-3 text-sm text-ink focus:border-ink focus:outline-none"
+          >
+            <option value="all">Any Valuation (Up to UGX 7B)</option>
+            <option value="2.5">Up to UGX 2,500,000,000</option>
+            <option value="3.5">Up to UGX 3,500,000,000</option>
+            <option value="5.0">Up to UGX 5,000,000,000</option>
+          </select>
+        </div>
+
+        <div class="min-w-0 sm:col-span-2 lg:col-span-3">
+          <button
+            type="submit"
+            class="flex min-h-[46px] w-full items-center justify-center gap-3 bg-accent px-6 text-xs font-medium tracking-[0.16em] text-canvas uppercase transition-colors hover:bg-bronze hover:text-ink"
+          >
+            <span>Search Homes</span>
+            <ArrowIcon class="h-3 w-4" />
+          </button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- Section 2: Trust & Scale Metrics Band -->
+  <section class="border-b border-rule bg-surface">
+    <div class="mx-auto max-w-[1440px] px-5 py-10 sm:px-8 sm:py-12 lg:px-12">
+      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          stats.map((stat, idx) => (
+            <div
+              class="border-l-2 border-bronze bg-canvas p-5 shadow-sm"
+              data-reveal="zoom-in"
+              data-delay={String(idx)}
+            >
+              <p class="font-serif text-2xl font-semibold text-accent sm:text-3xl">{stat.figure}</p>
+              <p class="mt-1 text-xs font-medium tracking-[0.1em] text-muted uppercase">{stat.label}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 3: Flagship Overlapping Estate Showcase -->
+  <section class="mx-auto max-w-[1440px] px-5 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24">
+    <div class="mb-8 flex flex-wrap items-end justify-between gap-4" data-reveal="fade-up">
+      <div>
+        <p class="text-xs font-medium tracking-[0.18em] text-bronze uppercase">Featured Waterfront Mandate</p>
+        <h2 class="mt-2 font-serif text-3xl font-medium text-ink sm:text-5xl">
+          {flagship.title}
+        </h2>
+      </div>
+      <span class="bg-accent px-4 py-1.5 text-xs font-medium tracking-[0.14em] text-bronze uppercase">
+        {flagship.price}
+      </span>
+    </div>
+
+    <div class="grid grid-cols-1 items-center gap-0 lg:grid-cols-12">
+      <div class="min-w-0 lg:col-span-8" data-reveal="curtain-up">
+        <a href={`/properties/${flagship.slug}`} class="av-frame block overflow-hidden bg-surface shadow-xl">
+          <Image
+            src={flagship.image}
+            alt={flagship.imageAlt}
+            class="aspect-[4/3] w-full object-cover sm:aspect-[16/10]"
+            widths={[720, 1280]}
+            sizes="(max-width: 1024px) 100vw, 65vw"
+          />
+        </a>
+      </div>
+
+      <div
+        class="relative z-10 min-w-0 bg-accent p-6 text-canvas shadow-2xl sm:p-10 lg:-ml-16 lg:col-span-5"
+        data-reveal="fade-right"
+        data-delay="1"
+      >
+        <p class="text-[11px] font-medium tracking-[0.18em] text-bronze uppercase">
+          {flagship.location} / {flagship.region}
+        </p>
+        <h3 class="mt-3 font-serif text-3xl font-medium text-canvas">{flagship.subtitle}</h3>
+        <p class="mt-4 text-sm leading-relaxed text-canvas/80">{flagship.summary}</p>
+
+        <div class="mt-6 grid grid-cols-2 gap-4 border-y border-canvas/15 py-4 text-xs sm:grid-cols-3">
+          <div>
+            <span class="block text-canvas/60 uppercase">Interior</span>
+            <span class="mt-1 block font-medium text-canvas">{flagship.area}</span>
+          </div>
+          <div>
+            <span class="block text-canvas/60 uppercase">Land</span>
+            <span class="mt-1 block font-medium text-canvas">1.2 Acres</span>
+          </div>
+          <div>
+            <span class="block text-canvas/60 uppercase">Suites</span>
+            <span class="mt-1 block font-medium text-canvas">{flagship.bedrooms} Bed / {flagship.bathrooms} Bath</span>
+          </div>
+        </div>
+
+        <div class="mt-7 flex flex-wrap gap-3">
+          <a
+            href={`/properties/${flagship.slug}`}
+            class="inline-flex min-h-[44px] items-center gap-3 bg-bronze px-5 py-2.5 text-xs font-semibold tracking-[0.14em] text-ink uppercase transition-colors hover:bg-canvas"
+          >
+            <span>Inspect Estate</span>
+            <ArrowIcon class="h-3 w-4" />
+          </a>
+          <a
+            href={`https://wa.me/256752814320?text=${encodeURIComponent(`Hello Demo Real Estate, I would like details on ${flagship.title} (${flagship.price}).`)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex min-h-[44px] items-center gap-2 border border-canvas/30 bg-whatsapp px-4 py-2.5 text-xs font-medium tracking-[0.12em] text-canvas uppercase transition-colors hover:bg-canvas hover:text-ink"
+          >
+            <WhatsAppIcon class="h-4 w-4" />
+            <span>WhatsApp</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 4: Dual Asymmetric Spotlight Showcase -->
+  <section class="bg-surface py-16 sm:py-20 lg:py-24">
+    <div class="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-12">
+      <div class="mb-12 flex flex-col justify-between gap-4 sm:flex-row sm:items-end" data-reveal="fade-up">
+        <div>
+          <p class="text-xs font-medium tracking-[0.18em] text-bronze uppercase">Urban &amp; Garden Living</p>
+          <h2 class="mt-2 font-serif text-3xl font-medium text-ink sm:text-4xl">
+            Two distinct ways to live in Kampala
+          </h2>
+        </div>
+        <a
+          href="/properties"
+          class="inline-flex min-h-[44px] items-center gap-2 border-b-2 border-bronze pb-1 text-xs font-medium tracking-[0.16em] text-ink uppercase transition-colors hover:text-bronze"
+        >
+          <span>See All 6 Properties</span>
+          <ArrowIcon class="h-3 w-4" />
+        </a>
+      </div>
+
+      <div class="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:items-start lg:gap-10">
+        <!-- Left Wide Spread -->
+        <article class="bg-canvas shadow-lg lg:col-span-7" data-reveal="fade-left">
+          <a href={`/properties/${spotlightA.slug}`} class="av-frame block overflow-hidden">
+            <Image
+              src={spotlightA.image}
+              alt={spotlightA.imageAlt}
+              class="aspect-[4/3] w-full object-cover sm:aspect-[16/10]"
+              widths={[640, 1100]}
+              sizes="(max-width: 1024px) 100vw, 56vw"
+            />
+          </a>
+          <div class="p-6 sm:p-8">
+            <div class="flex flex-wrap items-center justify-between gap-3">
+              <span class="bg-surface px-3 py-1 text-[11px] font-medium tracking-[0.14em] text-accent uppercase">
+                {spotlightA.location} / {spotlightA.category}
+              </span>
+              <span class="font-serif text-2xl font-semibold text-accent">{spotlightA.price}</span>
+            </div>
+            <h3 class="mt-4 font-serif text-3xl font-medium text-ink">
+              <a href={`/properties/${spotlightA.slug}`} class="transition-colors hover:text-bronze">
+                {spotlightA.title}
+              </a>
+            </h3>
+            <p class="mt-3 text-sm leading-relaxed text-muted">{spotlightA.summary}</p>
+            <div class="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-rule pt-4">
+              <span class="text-xs text-muted">
+                {spotlightA.area} / {spotlightA.bedrooms} Bedrooms / {spotlightA.bathrooms} Baths
+              </span>
+              <a
+                href={`/properties/${spotlightA.slug}`}
+                class="inline-flex min-h-[40px] items-center gap-2 text-xs font-medium tracking-[0.14em] text-accent uppercase hover:text-bronze"
+              >
+                <span>View Details</span>
+                <ArrowIcon class="h-3 w-4" />
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Right Tall Spread -->
+        <article class="bg-canvas shadow-lg lg:col-span-5 lg:mt-16" data-reveal="fade-right" data-delay="1">
+          <a href={`/properties/${spotlightB.slug}`} class="av-frame block overflow-hidden">
+            <Image
+              src={spotlightB.image}
+              alt={spotlightB.imageAlt}
+              class="aspect-[4/4] w-full object-cover sm:aspect-[4/5]"
+              widths={[640, 960]}
+              sizes="(max-width: 1024px) 100vw, 40vw"
+            />
+          </a>
+          <div class="p-6 sm:p-8">
+            <div class="flex flex-wrap items-center justify-between gap-3">
+              <span class="bg-surface px-3 py-1 text-[11px] font-medium tracking-[0.14em] text-accent uppercase">
+                {spotlightB.location} / {spotlightB.category}
+              </span>
+              <span class="font-serif text-2xl font-semibold text-accent">{spotlightB.price}</span>
+            </div>
+            <h3 class="mt-4 font-serif text-3xl font-medium text-ink">
+              <a href={`/properties/${spotlightB.slug}`} class="transition-colors hover:text-bronze">
+                {spotlightB.title}
+              </a>
+            </h3>
+            <p class="mt-3 text-sm leading-relaxed text-muted">{spotlightB.summary}</p>
+            <div class="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-rule pt-4">
+              <span class="text-xs text-muted">
+                {spotlightB.area} / {spotlightB.bedrooms} Bedrooms
+              </span>
+              <a
+                href={`/properties/${spotlightB.slug}`}
+                class="inline-flex min-h-[40px] items-center gap-2 text-xs font-medium tracking-[0.14em] text-accent uppercase hover:text-bronze"
+              >
+                <span>View Details</span>
+                <ArrowIcon class="h-3 w-4" />
+              </a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 5: Interactive Dark Emerald Property Ledger -->
+  <section class="bg-accent py-16 text-canvas sm:py-20 lg:py-24">
+    <div class="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-12">
+      <div class="mb-10 flex flex-col justify-between gap-4 sm:flex-row sm:items-end" data-reveal="fade-up">
+        <div>
+          <p class="text-xs font-medium tracking-[0.18em] text-bronze uppercase">Live Property Index</p>
+          <h2 class="mt-2 font-serif text-3xl font-medium text-canvas sm:text-4xl">
+            Current Residences Priced in UGX
+          </h2>
+        </div>
+        <a
+          href="/properties"
+          class="inline-flex min-h-[44px] items-center gap-3 bg-bronze px-5 py-2.5 text-xs font-semibold tracking-[0.14em] text-ink uppercase transition-colors hover:bg-canvas"
+        >
+          <span>Filter Full Portfolio</span>
+          <ArrowIcon class="h-3 w-4" />
+        </a>
+      </div>
+
+      <div class="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-12">
+        <div class="min-w-0 divide-y divide-canvas/15 border-y border-canvas/15 lg:col-span-7" data-ledger-list>
+          {
+            properties.map((item, idx) => (
+              <a
+                href={`/properties/${item.slug}`}
+                data-ledger-row={item.slug}
+                class="group flex min-h-[82px] items-center justify-between gap-3 py-4 transition-colors duration-300 hover:bg-canvas/5 sm:gap-4 sm:px-4 sm:py-5"
+                data-reveal="fade-left"
+                data-delay={String(Math.min(idx % 4, 3))}
+              >
+                <div class="flex min-w-0 flex-1 items-center gap-3.5 sm:gap-5">
+                  <span class="hidden text-xs font-medium tracking-[0.16em] text-bronze sm:inline">{item.index}</span>
+                  <div class="h-14 w-16 shrink-0 overflow-hidden bg-canvas/10 lg:hidden">
+                    <Image
+                      src={item.image}
+                      alt={item.imageAlt}
+                      class="h-full w-full object-cover"
+                      widths={[160]}
+                      sizes="64px"
+                    />
+                  </div>
+                  <div class="min-w-0 flex-1">
+                    <h3 class="truncate font-serif text-xl text-canvas transition-colors group-hover:text-bronze sm:text-2xl">
+                      {item.title}
+                    </h3>
+                    <p class="truncate text-xs text-canvas/65">
+                      {item.location} / {item.area} / {item.bedrooms} Bed
+                    </p>
+                    <span class="mt-1 block text-xs font-medium text-bronze sm:hidden">{item.price}</span>
+                  </div>
+                </div>
+
+                <div class="flex shrink-0 items-center gap-4 sm:gap-6">
+                  <span class="hidden text-sm font-medium text-bronze sm:inline">{item.price}</span>
+                  <ArrowIcon class="h-3 w-4 text-canvas/60 transition-transform duration-300 group-hover:translate-x-1 group-hover:text-bronze" />
+                </div>
+              </a>
+            ))
+          }
+        </div>
+
+        <div class="hidden lg:col-span-5 lg:block" data-reveal="zoom-in">
+          <div class="sticky top-28 border border-canvas/15 bg-canvas/5 p-4">
+            <div class="relative aspect-[4/3] w-full overflow-hidden bg-ink">
+              {
+                properties.map((item, idx) => (
+                  <div
+                    data-ledger-preview={item.slug}
+                    class={`absolute inset-0 transition-opacity duration-500 ${idx === 0 ? 'opacity-100' : 'opacity-0'}`}
+                  >
+                    <Image
+                      src={item.image}
+                      alt={item.imageAlt}
+                      class="h-full w-full object-cover"
+                      widths={[720]}
+                      sizes="38vw"
+                    />
+                  </div>
+                ))
+              }
+            </div>
+            <div class="mt-4 flex items-center justify-between gap-4 px-1">
+              <div>
+                <p id="ledger-preview-title" class="font-serif text-2xl text-canvas">
+                  {properties[0].title}
+                </p>
+                <p id="ledger-preview-loc" class="text-xs text-canvas/70">
+                  {properties[0].location} / {properties[0].area}
+                </p>
+              </div>
+              <span id="ledger-preview-price" class="text-sm font-medium text-bronze">
+                {properties[0].price}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 6: Advisory Process -->
+  <section class="mx-auto max-w-[1440px] px-5 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24">
+    <div class="max-w-2xl" data-reveal="fade-up">
+      <p class="text-xs font-medium tracking-[0.18em] text-bronze uppercase">The Demo Real Estate Process</p>
+      <h2 class="mt-2 font-serif text-3xl font-medium text-ink sm:text-5xl">
+        From first inquiry to verified title handover.
+      </h2>
+    </div>
+
+    <div class="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3">
+      {
+        steps.map((step, idx) => (
+          <div
+            class="border-t-2 border-bronze bg-surface p-7 shadow-sm"
+            data-reveal="fade-up"
+            data-delay={String(idx + 1)}
+          >
+            <span class="font-serif text-4xl font-semibold text-bronze">{step.num}</span>
+            <h3 class="mt-4 font-serif text-2xl font-medium text-ink">{step.title}</h3>
+            <p class="mt-3 text-sm leading-relaxed text-muted">{step.copy}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- Section 7: Market Journal Highlight & Direct WhatsApp Banner -->
+  <section class="border-t border-rule bg-surface py-16 sm:py-20">
+    <div class="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-12">
+      <div class="grid grid-cols-1 items-center gap-10 lg:grid-cols-12">
+        <div class="lg:col-span-7" data-reveal="fade-left">
+          <p class="text-xs font-medium tracking-[0.18em] text-bronze uppercase">
+            Market Intelligence / {leadEssay.date}
+          </p>
+          <h2 class="mt-3 font-serif text-3xl font-medium text-ink sm:text-4xl">
+            {leadEssay.title}
+          </h2>
+          <p class="mt-4 max-w-2xl text-base leading-relaxed text-muted">
+            {leadEssay.excerpt}
+          </p>
+          <a
+            href={`/journal/${leadEssay.slug}`}
+            class="mt-6 inline-flex min-h-[44px] items-center gap-3 border-b-2 border-ink pb-1 text-xs font-medium tracking-[0.16em] text-ink uppercase transition-colors hover:border-bronze hover:text-bronze"
+          >
+            <span>Read Full Report</span>
+            <ArrowIcon class="h-3 w-4" />
+          </a>
+        </div>
+
+        <div class="bg-ink p-8 text-canvas shadow-xl lg:col-span-5" data-reveal="zoom-in" data-delay="1">
+          <p class="text-xs font-medium tracking-[0.16em] text-bronze uppercase">Instant Agent Access</p>
+          <h3 class="mt-2 font-serif text-3xl text-canvas">Ready to tour a residence?</h3>
+          <p class="mt-3 text-sm leading-relaxed text-canvas/75">
+            Message our Kampala or Entebbe desk directly on WhatsApp for floor plans, UGX payment structures, or same-week viewings.
+          </p>
+          <div class="mt-6 flex flex-wrap gap-3">
+            <a
+              href="https://wa.me/256772410890?text=Hello%20Demo%20Real%20Estate%2C%20I%20would%20like%20to%20arrange%20a%20private%20viewing."
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex min-h-[46px] items-center gap-2.5 bg-whatsapp px-5 py-2.5 text-xs font-medium tracking-[0.14em] text-canvas uppercase transition-colors hover:bg-bronze hover:text-ink"
+            >
+              <WhatsAppIcon class="h-4 w-4" />
+              <span>Chat on WhatsApp</span>
+            </a>
+            <a
+              href="/contact"
+              class="inline-flex min-h-[46px] items-center gap-2 border border-canvas/30 px-5 py-2.5 text-xs font-medium tracking-[0.14em] text-canvas uppercase transition-colors hover:bg-canvas hover:text-ink"
+            >
+              <span>Inquiry Form</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  function initLedgerHover() {
+    const rows = document.querySelectorAll<HTMLElement>('[data-ledger-row]');
+    const previews = document.querySelectorAll<HTMLElement>('[data-ledger-preview]');
+    const titleEl = document.getElementById('ledger-preview-title');
+    const locEl = document.getElementById('ledger-preview-loc');
+    const priceEl = document.getElementById('ledger-preview-price');
+    if (rows.length === 0 || previews.length === 0) return;
+
+    const activate = (slug: string, title: string, loc: string, price: string) => {
+      previews.forEach((p) => {
+        const match = p.getAttribute('data-ledger-preview') === slug;
+        p.classList.toggle('opacity-100', match);
+        p.classList.toggle('opacity-0', !match);
+      });
+      if (titleEl) titleEl.textContent = title;
+      if (locEl) locEl.textContent = loc;
+      if (priceEl) priceEl.textContent = price;
+    };
+
+    rows.forEach((row) => {
+      const slug = row.getAttribute('data-ledger-row') || '';
+      const heading = row.querySelector('h3')?.textContent?.trim() || '';
+      const sub = row.querySelector('p')?.textContent?.trim() || '';
+      const price = row.querySelector('span.text-bronze:last-of-type')?.textContent?.trim() || '';
+
+      row.addEventListener('mouseenter', () => activate(slug, heading, sub, price));
+      row.addEventListener('focus', () => activate(slug, heading, sub, price));
+    });
+  }
+
+  document.addEventListener('astro:page-load', initLedgerHover);
+</script>

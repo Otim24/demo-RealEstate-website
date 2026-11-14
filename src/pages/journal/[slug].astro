@@ -1,0 +1,98 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ArrowIcon from '../../components/ArrowIcon.astro';
+import WhatsAppIcon from '../../components/WhatsAppIcon.astro';
+import { journalEntries } from '../../data/journal';
+
+export function getStaticPaths() {
+  return journalEntries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry }
+  }));
+}
+
+const { entry } = Astro.props;
+const currentIndex = journalEntries.findIndex((item) => item.slug === entry.slug);
+const nextEntry = journalEntries[(currentIndex + 1) % journalEntries.length];
+---
+
+<BaseLayout title={`${entry.title} | Demo Real Estate Journal`} description={entry.excerpt}>
+  <article class="pb-20">
+    <header class="bg-accent pt-10 pb-14 text-canvas sm:pt-14">
+      <div class="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-12">
+        <div data-reveal="fade-up">
+          <a
+            href="/journal"
+            class="inline-flex min-h-[44px] items-center gap-3 text-xs font-medium tracking-[0.14em] text-canvas/75 uppercase transition-colors hover:text-bronze"
+          >
+            <ArrowIcon direction="left" class="h-3 w-4" />
+            <span>Back to Market Journal</span>
+          </a>
+        </div>
+
+        <div class="mt-8 grid grid-cols-1 gap-8 border-t border-canvas/15 pt-8 lg:grid-cols-12">
+          <div class="lg:col-span-4" data-reveal="fade-left">
+            <span class="inline-block bg-bronze px-3 py-1 text-[11px] font-semibold tracking-[0.14em] text-ink uppercase">
+              Dispatch {entry.number} / {entry.category}
+            </span>
+            <p class="mt-4 text-xs text-canvas/75">{entry.date} / {entry.readTime}</p>
+            <p class="mt-1 text-xs font-medium text-canvas">{entry.author}</p>
+          </div>
+
+          <div class="lg:col-span-8" data-reveal="fade-right">
+            <h1 class="font-serif text-4xl leading-[1.06] font-medium text-canvas sm:text-5xl">
+              {entry.title}
+            </h1>
+            <p class="mt-5 max-w-2xl text-lg leading-relaxed text-canvas/80">
+              {entry.excerpt}
+            </p>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="mx-auto max-w-[1440px] px-5 pt-12 sm:px-8 lg:px-12">
+      <div class="grid grid-cols-1 gap-10 lg:grid-cols-12">
+        <div class="space-y-7 text-base leading-[1.85] text-ink/90 sm:text-lg lg:col-span-7 lg:col-start-3">
+          {
+            entry.paragraphs.map((paragraph, idx) => (
+              <p data-reveal="fade-up" data-delay={String(Math.min(idx + 1, 3))}>
+                {paragraph}
+              </p>
+            ))
+          }
+        </div>
+
+        <aside class="lg:col-span-3" data-reveal="zoom-in">
+          <div class="border border-rule bg-surface p-6">
+            <p class="text-xs font-medium tracking-[0.14em] text-bronze uppercase">Need Property Advice?</p>
+            <p class="mt-2 font-serif text-2xl text-ink">Speak with the author or advisory desk.</p>
+            <a
+              href="https://wa.me/256772410890?text=Hello%20Demo%20Real%20Estate%2C%20I%20read%20your%20Market%20Journal%20and%20would%20like%20to%20chat%20with%20an%20advisor."
+              target="_blank"
+              rel="noopener noreferrer"
+              class="mt-5 flex min-h-[44px] items-center justify-center gap-2 bg-whatsapp px-4 text-xs font-medium tracking-[0.12em] text-canvas uppercase hover:bg-accent"
+            >
+              <WhatsAppIcon class="h-4 w-4" />
+              <span>WhatsApp Desk</span>
+            </a>
+          </div>
+        </aside>
+      </div>
+
+      <div class="mt-16 border-t border-rule pt-10" data-reveal="fade-up">
+        <p class="text-xs font-medium tracking-[0.16em] text-bronze uppercase">Next Article</p>
+        <a
+          href={`/journal/${nextEntry.slug}`}
+          class="group mt-4 flex flex-col justify-between gap-4 bg-surface p-6 transition-colors hover:bg-accent hover:text-canvas sm:flex-row sm:items-center"
+        >
+          <h2 class="font-serif text-2xl sm:text-3xl">{nextEntry.title}</h2>
+          <span class="inline-flex min-h-[44px] items-center gap-3 text-xs font-medium tracking-[0.14em] uppercase">
+            <span>Read Next</span>
+            <ArrowIcon class="h-3 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+          </span>
+        </a>
+      </div>
+    </div>
+  </article>
+</BaseLayout>
