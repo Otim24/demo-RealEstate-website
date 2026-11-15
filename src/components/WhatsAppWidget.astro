@@ -19,7 +19,7 @@ const deskOptions = [
 
 <div
   id="whatsapp-concierge"
-  class="fixed right-4 bottom-[max(1rem,calc(env(safe-area-inset-bottom)+1rem))] z-40 sm:right-6"
+  class="pointer-events-none fixed right-4 bottom-[max(1rem,calc(env(safe-area-inset-bottom)+1rem))] z-40 sm:right-6"
 >
   <!-- Popover Concierge Panel -->
   <div
@@ -27,7 +27,8 @@ const deskOptions = [
     role="dialog"
     aria-label="Text a Demo Real Estate agent on WhatsApp"
     aria-hidden="true"
-    class="wa-popover invisible pointer-events-none mb-3 max-h-[85dvh] w-[min(26rem,calc(100vw-2rem))] origin-bottom-right translate-y-3 scale-95 overflow-y-auto border border-rule bg-canvas p-5 opacity-0 shadow-[0_20px_50px_rgba(18,38,31,0.25)] sm:p-6"
+    inert
+    class="wa-popover invisible pointer-events-none absolute right-0 bottom-full mb-3 max-h-[calc(100dvh-6.5rem)] w-[min(26rem,calc(100vw-2rem))] origin-bottom-right translate-y-3 scale-95 overflow-y-auto border border-rule bg-canvas p-5 opacity-0 shadow-[0_20px_50px_rgba(18,38,31,0.25)] sm:p-6"
   >
     <!-- Header with Active Status Beacon -->
     <div class="flex items-start justify-between gap-4 border-b border-rule pb-4">
@@ -177,7 +178,7 @@ const deskOptions = [
       aria-expanded="false"
       aria-controls="wa-popover"
       aria-label="Toggle WhatsApp concierge chat"
-      class="group inline-flex min-h-[52px] items-center gap-3 border border-bronze/40 bg-accent px-5 py-3 text-xs font-medium tracking-[0.14em] text-canvas uppercase shadow-[0_8px_30px_rgba(18,38,31,0.35)] transition-all duration-300 hover:-translate-y-0.5 hover:border-bronze hover:shadow-[0_12px_36px_rgba(18,38,31,0.5)] focus:outline-none"
+      class="pointer-events-auto group inline-flex min-h-[52px] items-center gap-3 border border-bronze/40 bg-accent px-5 py-3 text-xs font-medium tracking-[0.14em] text-canvas uppercase shadow-[0_8px_30px_rgba(18,38,31,0.35)] transition-all duration-300 hover:-translate-y-0.5 hover:border-bronze hover:shadow-[0_12px_36px_rgba(18,38,31,0.5)] focus:outline-none"
     >
       <span class="relative flex h-2.5 w-2.5 shrink-0">
         <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>

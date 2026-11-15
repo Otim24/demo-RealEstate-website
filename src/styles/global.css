@@ -34,6 +34,13 @@
     min-height: 100dvh;
     display: flex;
     flex-direction: column;
+  }
+
+  a,
+  button,
+  [role="button"],
+  select,
+  summary {
     cursor: pointer;
   }
 

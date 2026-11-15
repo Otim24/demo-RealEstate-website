@@ -107,4 +107,24 @@ test.describe('WhatsApp Concierge Widget Redesign — iPhone 16 Pro Max', () => 
     await expect(popover).toBeHidden();
     await expect(triggerBtn).toHaveAttribute('aria-expanded', 'false');
   });
+
+  test('Closed widget does not block hero CTA taps on mobile and Explore All Properties navigates', async ({ page }) => {
+    const conciergeBox = await page.locator('#whatsapp-concierge').boundingBox();
+    expect(conciergeBox).not.toBeNull();
+    // Closed concierge bounding box must wrap only the floating toggle pill, never spanning over the hero
+    expect(conciergeBox!.height).toBeLessThan(90);
+
+    const exploreBtn = page.locator('a[href="/properties"]', { hasText: 'Explore All Properties' });
+    await expect(exploreBtn).toBeVisible();
+
+    const hitIsExploreLink = await exploreBtn.evaluate((el) => {
+      const rect = el.getBoundingClientRect();
+      const hit = document.elementFromPoint(rect.left + rect.width / 2, rect.top + rect.height / 2);
+      return hit === el || el.contains(hit);
+    });
+    expect(hitIsExploreLink).toBe(true);
+
+    await exploreBtn.click();
+    await page.waitForURL('**/properties');
+  });
 });

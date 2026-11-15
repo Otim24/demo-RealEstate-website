@@ -407,8 +407,33 @@ describe('Suite 6: WhatsApp Concierge Widget Markup & Accessibility Contracts', 
     assert.match(homeHtml, /data-wa-preset="[^"]*UGX[^"]*"/i, 'Contains UGX payment preset chip');
   });
 
-  it('Fixed container accounts for safe-area positioning on mobile viewports', () => {
+  it('Fixed container is pointer-events-none with out-of-flow popover and interactive toggle', () => {
     assert.match(homeHtml, /id="whatsapp-concierge"/, 'Contains #whatsapp-concierge container');
+    assert.match(
+      homeHtml,
+      /id="whatsapp-concierge"[^>]*class="[^"]*pointer-events-none[^"]*"/,
+      '#whatsapp-concierge wrapper must not intercept pointer events over hero links'
+    );
+    assert.match(
+      homeHtml,
+      /id="wa-popover"[^>]*inert/,
+      '#wa-popover must be inert when closed'
+    );
+    assert.match(
+      homeHtml,
+      /id="wa-popover"[^>]*class="[^"]*\babsolute\b[^"]*"/,
+      '#wa-popover must be positioned out-of-flow (absolute)'
+    );
+    assert.match(
+      homeHtml,
+      /id="wa-popover"[^>]*class="[^"]*\binvisible\b[^"]*\bpointer-events-none\b[^"]*"/,
+      '#wa-popover must be invisible and non-interactive when closed'
+    );
+    assert.match(
+      homeHtml,
+      /id="wa-toggle-btn"[^>]*class="[^"]*pointer-events-auto[^"]*"/,
+      '#wa-toggle-btn must opt back into pointer-events-auto inside pointer-events-none container'
+    );
   });
 });
 

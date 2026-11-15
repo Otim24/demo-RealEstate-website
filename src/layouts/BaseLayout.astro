@@ -340,6 +340,7 @@ const {
           popover.setAttribute('aria-hidden', String(!open));
           toggleBtn.setAttribute('aria-expanded', String(open));
           if (open) {
+            popover.removeAttribute('inert');
             popover.classList.remove('invisible', 'pointer-events-none', 'opacity-0', 'translate-y-3', 'scale-95');
             popover.classList.add('pointer-events-auto', 'opacity-100', 'translate-y-0', 'scale-100');
             if (backdrop) {
@@ -347,6 +348,7 @@ const {
               backdrop.classList.add('opacity-100');
             }
           } else {
+            popover.setAttribute('inert', '');
             popover.classList.add('invisible', 'pointer-events-none', 'opacity-0', 'translate-y-3', 'scale-95');
             popover.classList.remove('pointer-events-auto', 'opacity-100', 'translate-y-0', 'scale-100');
             if (backdrop) {
@@ -409,8 +411,8 @@ const {
           }
         });
 
-        document.addEventListener('click', (e) => {
-          const target = e.target as HTMLElement | null;
+        const dismissOnOutside = (e: Event) => {
+          const target = e.target instanceof Element ? e.target : null;
           if (!target) return;
           const isPopoverOpen = popover.getAttribute('aria-hidden') === 'false';
           if (
@@ -421,7 +423,9 @@ const {
           ) {
             setOpen(false);
           }
-        });
+        };
+        document.addEventListener('pointerdown', dismissOnOutside);
+        document.addEventListener('click', dismissOnOutside);
       }
 
       function initAll() {
