@@ -97,19 +97,22 @@ const budgetOptions = [
     </div>
   </section>
 
-  <!-- Alternating Editorial Showcase -->
-  <section id="portfolio-spread-view" class="av-fade-panel mx-auto max-w-[1440px] px-5 py-12 sm:px-8 lg:px-12">
-    <div id="empty-filter-msg" class="hidden border border-rule bg-surface p-10 text-center">
+  <!-- Shared Empty Filter Notification -->
+  <div class="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-12">
+    <div id="empty-filter-msg" class="hidden my-8 border border-rule bg-surface p-10 text-center">
       <p class="font-serif text-2xl text-ink">No properties match that exact filter combination.</p>
       <button
         id="reset-filters-btn"
         type="button"
-        class="mt-4 inline-flex min-h-[44px] items-center bg-accent px-6 text-xs font-medium tracking-[0.14em] text-canvas uppercase"
+        class="mt-4 inline-flex min-h-[44px] items-center bg-accent px-6 text-xs font-medium tracking-[0.14em] text-canvas uppercase transition-colors hover:bg-bronze hover:text-ink"
       >
         Reset Filters
       </button>
     </div>
+  </div>
 
+  <!-- Alternating Editorial Showcase -->
+  <section id="portfolio-spread-view" class="av-fade-panel mx-auto max-w-[1440px] px-5 py-12 sm:px-8 lg:px-12">
     <div class="space-y-12">
       {
         properties.map((item, idx) => {
@@ -294,29 +297,40 @@ const budgetOptions = [
       });
     };
 
+    let filterTimeout: number | null = null;
+    let viewTimeout: number | null = null;
+
+    const applyVisibility = () => {
+      let visibleCount = 0;
+      const currentContainer = activeView === 'spread' ? spreadView : indexView;
+      items.forEach((el) => {
+        const cat = el.getAttribute('data-category');
+        const priceVal = parseFloat(el.getAttribute('data-price-billions') || '0');
+        const matchesCat = activeCategory === 'All' || cat === activeCategory;
+        const matchesBudget = maxBillions === 'all' || priceVal <= parseFloat(maxBillions);
+        const visible = matchesCat && matchesBudget;
+
+        el.classList.toggle('hidden', !visible);
+        if (visible) {
+          el.classList.add('is-visible');
+          if (currentContainer.contains(el)) {
+            visibleCount++;
+          }
+        }
+      });
+      if (emptyMsg) {
+        emptyMsg.classList.toggle('hidden', visibleCount > 0);
+      }
+    };
+
     const runFilter = (animate = true) => {
       updateButtonStyles();
       const currentContainer = activeView === 'spread' ? spreadView : indexView;
 
-      const applyVisibility = () => {
-        let visibleCountInSpread = 0;
-        items.forEach((el) => {
-          const cat = el.getAttribute('data-category');
-          const priceVal = parseFloat(el.getAttribute('data-price-billions') || '0');
-          const matchesCat = activeCategory === 'All' || cat === activeCategory;
-          const matchesBudget = maxBillions === 'all' || priceVal <= parseFloat(maxBillions);
-          const visible = matchesCat && matchesBudget;
-
-          el.classList.toggle('hidden', !visible);
-          if (visible) {
-            el.classList.add('is-visible');
-            if (spreadView.contains(el)) visibleCountInSpread++;
-          }
-        });
-        if (emptyMsg) {
-          emptyMsg.classList.toggle('hidden', visibleCountInSpread > 0);
-        }
-      };
+      if (filterTimeout !== null) {
+        clearTimeout(filterTimeout);
+        filterTimeout = null;
+      }
 
       if (!animate) {
         applyVisibility();
@@ -324,14 +338,21 @@ const budgetOptions = [
       }
 
       currentContainer.classList.add('is-fading');
-      window.setTimeout(() => {
+      filterTimeout = window.setTimeout(() => {
         applyVisibility();
         currentContainer.classList.remove('is-fading');
+        filterTimeout = null;
       }, 220);
     };
 
     const switchView = (mode: 'spread' | 'index') => {
       if (mode === activeView) return;
+
+      if (viewTimeout !== null) {
+        clearTimeout(viewTimeout);
+        viewTimeout = null;
+      }
+
       const outgoing = activeView === 'spread' ? spreadView : indexView;
       const incoming = mode === 'spread' ? spreadView : indexView;
       activeView = mode;
@@ -346,12 +367,14 @@ const budgetOptions = [
       });
 
       outgoing.classList.add('is-fading');
-      window.setTimeout(() => {
+      viewTimeout = window.setTimeout(() => {
         outgoing.classList.add('hidden');
         outgoing.classList.remove('is-fading');
         incoming.classList.add('is-fading');
         incoming.classList.remove('hidden');
+        applyVisibility();
         requestAnimationFrame(() => incoming.classList.remove('is-fading'));
+        viewTimeout = null;
       }, 220);
     };
 

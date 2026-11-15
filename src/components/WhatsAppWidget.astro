@@ -10,38 +10,58 @@ const deskOptions = [
 ];
 ---
 
+<!-- Mobile Backdrop Scrim -->
+<div
+  id="wa-backdrop"
+  class="fixed inset-0 z-39 invisible pointer-events-none bg-ink/30 opacity-0 backdrop-blur-[2px] transition-opacity duration-300 md:hidden"
+  aria-hidden="true"
+></div>
+
 <div
   id="whatsapp-concierge"
-  class="fixed right-4 bottom-4 z-40 sm:right-6 sm:bottom-6"
+  class="fixed right-4 bottom-[max(1rem,calc(env(safe-area-inset-bottom)+1rem))] z-40 sm:right-6"
 >
-  <!-- Popover Panel -->
+  <!-- Popover Concierge Panel -->
   <div
     id="wa-popover"
     role="dialog"
     aria-label="Text a Demo Real Estate agent on WhatsApp"
     aria-hidden="true"
-    class="wa-popover invisible pointer-events-none mb-3 max-h-[82dvh] w-[min(24rem,calc(100vw-2rem))] origin-bottom-right translate-y-3 scale-95 overflow-y-auto border border-rule bg-canvas p-5 opacity-0 shadow-2xl"
+    class="wa-popover invisible pointer-events-none mb-3 max-h-[85dvh] w-[min(26rem,calc(100vw-2rem))] origin-bottom-right translate-y-3 scale-95 overflow-y-auto border border-rule bg-canvas p-5 opacity-0 shadow-[0_20px_50px_rgba(18,38,31,0.25)] sm:p-6"
   >
-    <div class="flex items-start justify-between gap-4 border-b border-rule pb-3.5">
+    <!-- Header with Active Status Beacon -->
+    <div class="flex items-start justify-between gap-4 border-b border-rule pb-4">
       <div>
-        <p class="text-[11px] font-medium tracking-[0.16em] text-whatsapp uppercase">Demo Real Estate Desk</p>
+        <div class="flex items-center gap-2">
+          <span class="relative flex h-2 w-2 shrink-0">
+            <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
+            <span class="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
+          </span>
+          <p class="text-[10px] font-semibold tracking-[0.2em] text-bronze uppercase">
+            Demo Real Estate • Private Advisory
+          </p>
+        </div>
         <h2 class="mt-1 font-serif text-2xl font-medium text-ink">Text an Agent on WhatsApp</h2>
-        <p class="mt-0.5 text-xs text-muted">Instant chat with our Kampala &amp; Entebbe advisors</p>
+        <p class="mt-0.5 text-xs text-muted">Active Now: Kampala, Entebbe &amp; Fort Portal</p>
       </div>
       <button
         id="wa-close-btn"
         type="button"
-        class="inline-flex h-10 w-10 shrink-0 items-center justify-center border border-rule text-[11px] tracking-[0.1em] text-muted uppercase hover:border-ink hover:text-ink"
+        class="inline-flex h-8 w-8 shrink-0 items-center justify-center border border-rule text-xs text-muted transition-colors hover:border-ink hover:text-ink focus:outline-none"
         aria-label="Close WhatsApp concierge"
       >
-        Close
+        <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M18 6L6 18M6 6l12 12" />
+        </svg>
       </button>
     </div>
 
+    <!-- Form & Controls -->
     <div class="mt-4 space-y-4">
+      <!-- Desk Selector -->
       <div>
         <span class="block text-[11px] font-medium tracking-[0.14em] text-muted uppercase">
-          Choose Office Desk
+          Choose Advisory Desk
         </span>
         <div class="mt-1.5">
           <CustomSelect
@@ -53,69 +73,118 @@ const deskOptions = [
         </div>
       </div>
 
+      <!-- Quick Inquiry Topic Chips -->
       <div>
-        <span class="block text-[11px] font-medium tracking-[0.14em] text-muted uppercase">Quick Questions</span>
-        <div class="mt-2 flex flex-wrap gap-2">
+        <span class="block text-[11px] font-medium tracking-[0.14em] text-muted uppercase">
+          Select Topic of Inquiry
+        </span>
+        <div class="mt-2 grid grid-cols-2 gap-2" role="group" aria-label="Quick questions">
           <button
             type="button"
-            data-wa-preset="Hello Demo Real Estate, I would like to book a viewing this week."
-            class="min-h-[36px] border border-rule bg-surface px-2.5 py-1 text-[11px] text-ink transition-colors hover:border-ink hover:bg-bronze/20"
+            data-wa-preset="Hello Demo Real Estate, I would like to book a private viewing this week."
+            class="flex min-h-[38px] items-center justify-between border border-rule bg-surface/60 px-3 py-2 text-left text-xs font-medium text-ink transition-colors hover:border-bronze hover:bg-surface"
           >
-            Book a viewing
+            <span>Private Viewing Tour</span>
+            <span data-preset-indicator class="h-1.5 w-1.5 shrink-0 rounded-full bg-transparent"></span>
           </button>
           <button
             type="button"
             data-wa-preset="Hello Demo Real Estate, please share UGX pricing and payment terms."
-            class="min-h-[36px] border border-rule bg-surface px-2.5 py-1 text-[11px] text-ink transition-colors hover:border-ink hover:bg-bronze/20"
+            class="flex min-h-[38px] items-center justify-between border border-rule bg-surface/60 px-3 py-2 text-left text-xs font-medium text-ink transition-colors hover:border-bronze hover:bg-surface"
           >
-            UGX payment terms
+            <span>UGX Pricing &amp; Terms</span>
+            <span data-preset-indicator class="h-1.5 w-1.5 shrink-0 rounded-full bg-transparent"></span>
           </button>
           <button
             type="button"
             data-wa-preset="Hello Demo Real Estate, do you have off-market homes in Kololo or Entebbe?"
-            class="min-h-[36px] border border-rule bg-surface px-2.5 py-1 text-[11px] text-ink transition-colors hover:border-ink hover:bg-bronze/20"
+            class="flex min-h-[38px] items-center justify-between border border-rule bg-surface/60 px-3 py-2 text-left text-xs font-medium text-ink transition-colors hover:border-bronze hover:bg-surface"
           >
-            Off-market homes
+            <span>Off-Market Mandates</span>
+            <span data-preset-indicator class="h-1.5 w-1.5 shrink-0 rounded-full bg-transparent"></span>
+          </button>
+          <button
+            type="button"
+            data-wa-preset="Hello Demo Real Estate, please send verified title and floor plans."
+            class="flex min-h-[38px] items-center justify-between border border-rule bg-surface/60 px-3 py-2 text-left text-xs font-medium text-ink transition-colors hover:border-bronze hover:bg-surface"
+          >
+            <span>Title &amp; Floor Plans</span>
+            <span data-preset-indicator class="h-1.5 w-1.5 shrink-0 rounded-full bg-transparent"></span>
           </button>
         </div>
       </div>
 
+      <!-- Optional Client Name Personalization -->
+      <div>
+        <label for="wa-client-name" class="block text-[11px] font-medium tracking-[0.14em] text-muted uppercase">
+          Your Name <span class="text-muted/60 lowercase">(optional)</span>
+        </label>
+        <input
+          type="text"
+          id="wa-client-name"
+          placeholder="e.g. Dr. Sarah Okello"
+          class="mt-1.5 w-full border border-rule bg-surface/40 px-3 py-2 text-xs text-ink placeholder:text-muted/60 focus:border-ink focus:outline-none"
+        />
+      </div>
+
+      <!-- Message Textarea -->
       <div>
         <label for="wa-message-input" class="block text-[11px] font-medium tracking-[0.14em] text-muted uppercase">
-          Your Message
+          Inquiry Message
         </label>
         <textarea
           id="wa-message-input"
           rows={3}
-          class="mt-1.5 w-full border border-rule bg-white p-2.5 text-xs leading-relaxed text-ink placeholder:text-muted/60 focus:border-ink focus:outline-none"
+          class="mt-1.5 w-full border border-rule bg-surface/40 p-3 text-xs leading-relaxed text-ink placeholder:text-muted/60 focus:border-ink focus:outline-none"
         >Hello Demo Real Estate, I would like to speak with an agent about your listed properties.</textarea>
       </div>
 
+      <!-- Primary Action: WhatsApp Deep Link -->
       <a
         id="wa-launch-link"
         href="https://wa.me/256772410890?text=Hello%20Demo%20Real%20Estate%2C%20I%20would%20like%20to%20speak%20with%20an%20agent."
         target="_blank"
         rel="noopener noreferrer"
-        class="flex min-h-[46px] w-full items-center justify-center gap-3 bg-whatsapp px-5 py-3 text-xs font-medium tracking-[0.14em] text-canvas uppercase transition-colors hover:bg-accent"
+        class="flex min-h-[48px] w-full items-center justify-center gap-3 bg-accent px-5 py-3 text-xs font-medium tracking-[0.14em] text-canvas uppercase shadow-md transition-all duration-300 hover:bg-bronze hover:text-ink"
       >
         <WhatsAppIcon class="h-4 w-4" />
         <span>Open WhatsApp Chat</span>
         <ArrowIcon class="h-3 w-4" />
       </a>
+
+      <!-- Secondary Direct Call Link & Trust Seal -->
+      <div class="flex items-center justify-between border-t border-rule/60 pt-3">
+        <a
+          id="wa-phone-link"
+          href="tel:+256772410890"
+          class="inline-flex items-center gap-1.5 text-[11px] font-medium tracking-[0.1em] text-muted uppercase transition-colors hover:text-bronze"
+        >
+          <svg class="h-3.5 w-3.5 text-bronze" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+          </svg>
+          <span>Direct Desk Call</span>
+        </a>
+        <span class="text-[10px] tracking-[0.08em] text-muted/70 uppercase">Avg Reply: &lt;15m</span>
+      </div>
     </div>
   </div>
 
-  <!-- Floating Trigger Button -->
+  <!-- Redesigned Floating Trigger Button -->
   <div class="flex justify-end">
     <button
       id="wa-toggle-btn"
       type="button"
       aria-expanded="false"
       aria-controls="wa-popover"
-      class="inline-flex min-h-[50px] items-center gap-2.5 bg-whatsapp px-5 py-3 text-xs font-medium tracking-[0.12em] text-canvas uppercase shadow-xl transition-all duration-300 hover:-translate-y-0.5 hover:bg-accent"
+      aria-label="Toggle WhatsApp concierge chat"
+      class="group inline-flex min-h-[52px] items-center gap-3 border border-bronze/40 bg-accent px-5 py-3 text-xs font-medium tracking-[0.14em] text-canvas uppercase shadow-[0_8px_30px_rgba(18,38,31,0.35)] transition-all duration-300 hover:-translate-y-0.5 hover:border-bronze hover:shadow-[0_12px_36px_rgba(18,38,31,0.5)] focus:outline-none"
     >
-      <WhatsAppIcon class="h-5 w-5 shrink-0" />
-      <span class="hidden sm:inline">WhatsApp an Agent</span>
+      <span class="relative flex h-2.5 w-2.5 shrink-0">
+        <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
+        <span class="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500"></span>
+      </span>
+      <WhatsAppIcon class="h-4.5 w-4.5 shrink-0 text-bronze transition-transform duration-300 group-hover:scale-110" />
+      <span class="hidden sm:inline">WhatsApp Concierge</span>
       <span class="sm:hidden">WhatsApp</span>
     </button>
   </div>
